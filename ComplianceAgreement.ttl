@@ -1,0 +1,131 @@
+@prefix upcast: <https://www.upcast-project.eu/upcast-vocab/1.0/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix idsa-core: <https://w3id.org/idsa/core/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix odrl: <http://www.w3.org/ns/odrl/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+
+<http://upcast-project.eu/offer/example-contract>
+        a       upcast:Contract;
+        a       idsa-core:Contract;
+        upcast:refersTo         <http://upcast-project.eu/dataset/example-dataset-1>;
+        upcast:hasAgreement     <http://upcast-project.eu/contracts/example-contract>;
+        upcast:hasNLP           "The Natural Language Version of this Contract";
+        upcast:hasDPW           <http://upcast-project.eu/dpws/example-dpw> ;   
+        idsa-core:Consumer      <https://upcast-project.eu/consumer/example-data-consumer> ;
+        idsa-core:Provider      <https://upcast-project.eu/provider/example-data-provider> .
+
+
+<https://upcast-project.eu/provider/example-data-provider>
+        a   foaf:Agent;
+        a   foaf:Organization;
+        foaf:name               "Data Provider Organization" .
+
+<https://upcast-project.eu/provider/example-data-consumer>
+        a   foaf:Agent;
+        a   foaf:Organization;
+        foaf:name               "Data Consumer Organization" .
+
+# Agreed dataset and distibution specification that governs this agreement.
+# Includes price and format
+       
+<http://upcast-project.eu/dataset/example-dataset-agreed>
+        a   dcat:Dataset;
+        dct:title               "Example Dataset agreed";        
+        dct:description         "Specification of dataset agreed in this contract";
+        dcat:theme              "Financial";
+        dcat:theme              "Resources"; 
+        dct:spatial             "European Union";     
+        dct:publisher           <https://upcast-project.eu/provider/example-data-provider>; 
+        idsa-core:Provider      <https://upcast-project.eu/provider/example-data-provider>;
+        dcat:distribution       <http://upcast-project.eu/dataset/example-dataset-1> ;
+        odrl:hasPolicy          <http://upcast-project.eu/policy/usage-constraint-example> ;
+        upcast:price             500;
+        upcast:priceUnit         "EUR/Month".
+
+<http://upcast-project.eu/distribution/example-distribution-agreed>
+        a   dcat:Distribution;
+        dct:description   "The dataset in RDF format";
+        dct:format        "rdf";
+        dct:title         "RDF Distribution of Dataset 1".
+
+# Agreement policies
+<http://upcast-project.eu/policy/agreement/example-agreement-of-this-negotiation>
+        a odrl:Agreement ;
+        odrl:permission [
+                odrl:assigner           <https://upcast-project.eu/provider/example-data-provider>;
+                odrl:assignee           <https://upcast-project.eu/consumer/example-data-consumer>;
+                odrl:target             <http://upcast-project.eu/dataset/example-dataset-agreed> ;
+                odrl:action [
+                    rdf:value upcast:Integrate ; # Action Integrate
+                    odrl:refinement [ # implemented by this container
+                    odrl:leftOperand upcast:implementedBy ;
+                    odrl:operator odrl:eq ;
+                    odrl:rightOperand <https://hub.docker.com/r/UPCASTIntegrate> ;                    
+                   ], [ #run with this command
+                    odrl:leftOperand upcast:executionCommand ;
+                    odrl:operator odrl:eq ;
+                    odrl:rightOperand "upintegrate $target $x" ; 
+                   ]
+                ]   
+        ] ;
+        odrl:permission [
+                odrl:assigner           <https://upcast-project.eu/provider/example-data-provider>;
+                odrl:assignee           <https://upcast-project.eu/consumer/example-data-consumer>;
+                odrl:target             <http://upcast-project.eu/dataset/example-dataset-agreed> ;
+                odrl:action [
+                    rdf:value odrl:anonymize ; # Action Anonymize
+                    odrl:refinement [ # implemented by this container
+                    odrl:leftOperand upcast:implementedBy ;
+                    odrl:operator odrl:eq ;
+                    odrl:rightOperand <https://hub.docker.com/r/MyAnonymizer> ;                    
+                   ], [ #run with this command
+                    odrl:leftOperand upcast:executionCommand ;
+                    odrl:operator odrl:eq ;
+                    odrl:rightOperand "anonymize -level 3" ; 
+                   ] , [ #Must execute at least once
+                    odrl:leftOperand odrl:count ;
+                    odrl:operator odrl:gteq ;
+                    odrl:rightOperand 1 ; 
+                   ]                
+                ] ;  
+                # This states that integration comes before anonymization
+                odrl:duty [
+                   odrl:action [ rdf:value upcast:Integrate ]   
+                ]                    
+        ] ;
+        odrl:permission [
+                odrl:assigner           <https://upcast-project.eu/provider/example-data-provider>;
+                odrl:assignee           <https://upcast-project.eu/consumer/example-data-consumer>;
+                odrl:target             <http://upcast-project.eu/dataset/example-dataset-agreed> ;
+                odrl:action [
+                    rdf:value odrl:aggregate ; # Action aggregate
+                    odrl:refinement [ # implemented by this container
+                    odrl:leftOperand upcast:implementedBy ;
+                    odrl:operator odrl:eq ;
+                    odrl:rightOperand <https://hub.docker.com/r/YourAggregator> ;                    
+                   ], [ #run with this command
+                    odrl:leftOperand upcast:executionCommand ;
+                    odrl:operator odrl:eq ;
+                    odrl:rightOperand "aggregate -agg sum" ; 
+                   ]
+                , [ #Can execute at most 3 times
+                    odrl:leftOperand odrl:count ;
+                    odrl:operator odrl:lteq ;
+                    odrl:rightOperand 3 ; 
+                   ]
+                , [ #Must execute at least once
+                    odrl:leftOperand odrl:count ;
+                    odrl:operator odrl:gteq ;
+                    odrl:rightOperand 1 ; 
+                   ]
+                ]  ;
+                # This states that anonymization comes before aggregation
+                odrl:duty [
+                   odrl:action [ rdf:value odrl:anonymize ] ;  
+                ]                    
+        ] .      
