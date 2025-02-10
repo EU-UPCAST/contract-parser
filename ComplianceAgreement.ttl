@@ -62,15 +62,25 @@
                 odrl:target             <http://upcast-project.eu/dataset/example-dataset-agreed> ;
                 odrl:action [
                     rdf:value upcast:Integrate ; # Action Integrate
+                    odrl:constraint [
+                        odrl:leftOperand odrl:dateTime ;
+                        odrl:operator odrl:lt ;
+                        odrl:rightOperand "2025-05-15"^^xsd:dateTime
+                        ],
+                        [
+                        odrl:leftOperand odrl:dateTime ;
+                        odrl:operator odrl:gt ;
+                        odrl:rightOperand "2025-05-01"^^xsd:dateTime
+                        ];
                     odrl:refinement [ # implemented by this container
-                    odrl:leftOperand upcast:implementedBy ;
-                    odrl:operator odrl:eq ;
-                    odrl:rightOperand <https://hub.docker.com/r/UPCASTIntegrate> ;                    
-                   ], [ #run with this command
-                    odrl:leftOperand upcast:executionCommand ;
-                    odrl:operator odrl:eq ;
-                    odrl:rightOperand "upintegrate $target $x" ; 
-                   ]
+                        odrl:leftOperand upcast:implementedBy ;
+                        odrl:operator odrl:eq ;
+                        odrl:rightOperand <https://hub.docker.com/r/UPCASTIntegrate>                     
+                        ], [ #run with this command
+                        odrl:leftOperand upcast:executionCommand ;
+                        odrl:operator odrl:eq ;
+                        odrl:rightOperand "upintegrate $target $x"  
+                        ]
                 ]   
         ] ;
         odrl:permission [
@@ -104,6 +114,11 @@
                 odrl:target             <http://upcast-project.eu/dataset/example-dataset-agreed> ;
                 odrl:action [
                     rdf:value odrl:aggregate ; # Action aggregate
+                    odrl:constraint [
+                        odrl:leftOperand odrl:dateTime ;
+                        odrl:operator odrl:lt ;
+                        odrl:rightOperand "2025-05-30"^^xsd:dateTime
+                        ];
                     odrl:refinement [ # implemented by this container
                     odrl:leftOperand upcast:implementedBy ;
                     odrl:operator odrl:eq ;

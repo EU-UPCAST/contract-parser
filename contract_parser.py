@@ -1,5 +1,6 @@
 from rdflib import Graph, Namespace, URIRef
 from rdflib.namespace import RDF
+import datetime
 import logging
 
 class ContractParser:
@@ -167,6 +168,34 @@ class ContractParser:
             limits.append((operator,value)) 
 
         return limits 
+    
+    def get_action_datetime_constraints(self,actionValue):
+        """
+        input: actionValue, that is the name of the action in string format
+        output: list of tuple of the form (operator, datetime) where operator is the comparison odrl operator (eq,lt,lteq,gteq,gt) and datetime is the constrained datetime.
+                An empty list is returned if the action does not have any datetime constraint.
+        """
+        query = """
+        PREFIX odrl: <http://www.w3.org/ns/odrl/>
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        PREFIX upcast: <https://www.upcast-project.eu/upcast-vocab/1.0/> 
+
+        SELECT ?operator ?rightOperand
+        WHERE {
+        ?actionIRI rdf:value ?actionValue .
+        ?actionIRI odrl:constraint ?constraint .
+        ?constraint odrl:leftOperand odrl:dateTime ;
+                    odrl:operator ?operator;
+                    odrl:rightOperand ?rightOperand .
+        }
+        """
+        qres = self.contract_graph.query(query,initBindings={'actionValue': URIRef(actionValue)})
+        limits = []
+        for row in qres:
+            operator = str(row["operator"]).split("/")[-1]
+            value = row["rightOperand"].toPython()
+            limits.append((operator,value)) 
+        return limits
 
     def get_action_dependencies(self,actionValue):
         """

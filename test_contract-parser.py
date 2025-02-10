@@ -1,6 +1,7 @@
 import unittest
 from rdflib import Graph, URIRef
 from contract_parser import ContractParser
+import datetime
 
 class TestContractParser(unittest.TestCase):
 
@@ -54,7 +55,23 @@ class TestContractParser(unittest.TestCase):
     def test_get_action_execution_limits_inexistent(self):
         action_execution_limit = self.parser.get_action_execution_limits(actionValue="https://www.upcast-project.eu/upcast-vocab/1.0/Integrate")
         self.assertEquals(len(action_execution_limit),0)
-     
+
+    def test_get_action_datetime_constraint_inexistent(self):
+        action_datetime_constraints = self.parser.get_action_datetime_constraints(actionValue="http://www.w3.org/ns/odrl/anonymize")
+        self.assertEquals(len(action_datetime_constraints),0)
+    
+    def test_get_action_datetime_constraint_single(self):
+        action_datetime_constraints = self.parser.get_action_datetime_constraints(actionValue="http://www.w3.org/ns/odrl/aggregate")
+        self.assertEquals(len(action_datetime_constraints),1)
+        self.assertIn(("lt",datetime.datetime(2025,5,30)), action_datetime_constraints)
+            
+
+    def test_get_action_datetime_constraint_double(self):
+        action_datetime_constraints = self.parser.get_action_datetime_constraints(actionValue="https://www.upcast-project.eu/upcast-vocab/1.0/Integrate")
+        self.assertEquals(len(action_datetime_constraints),2)
+        self.assertIn(("lt",datetime.datetime(2025,5,15)), action_datetime_constraints)
+        self.assertIn(("gt",datetime.datetime(2025,5,1)), action_datetime_constraints)    
+    
     def test_get_action_dependencies(self):
         #action_dependencies = self.parser.get_action_dependencies(actionValue="http://www.w3.org/ns/odrl/anonymize")
         #self.assertEquals(["https://www.upcast-project.eu/upcast-vocab/1.0/Integrate"],action_dependencies)
