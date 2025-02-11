@@ -155,4 +155,31 @@
                 odrl:duty [
                    odrl:action [ rdf:value odrl:anonymize ] ;  
                 ]                    
-        ]; .      
+        ];
+        odrl:permission [
+                odrl:assigner           <https://upcast-project.eu/provider/example-data-provider>;
+                odrl:assignee           <https://upcast-project.eu/consumer/example-data-consumer>;
+                odrl:target             <http://upcast-project.eu/dataset/example-dataset-agreed> ;
+                odrl:action [
+                    rdf:value <http://upcast-project.eu/dpws/example-dpw>  ; # A DPW is an action on a dataset
+                    odrl:constraint [ # subject to the below environmental constraints
+                    odrl:leftOperand upcast:totalEnergyConsumption ;
+                    odrl:operator odrl:lteq ;
+                    odrl:rightOperand "500"^xsd:float ;                    
+                   ], [ 
+                    odrl:leftOperand upcast:totalCarbonEmission ;
+                    odrl:operator odrl:lteq ;
+                    odrl:rightOperand "300"^xsd:float ;                    
+                   ]                
+                ] ;                           
+        ] .      
+
+# Minimal description of the workflow.
+# The Semantics is that applying the Workflow is one more action. It is however implied that sub-actions executed by the Workflow are permitted by the usage policies in an admissible order
+# An alternative semantics is to assume that all actions in the steps of the workflow become permitted when the workflow is allowed.
+
+<http://upcast-project.eu/dpws/example-dpw> 
+        a   upcast:DataProcessingWorkflow ;
+        a   odrl:Action ;         
+        wmo:wfPurposes      "Scientific Research and Development" ;
+        wmo:Initiators      <https://upcast-project.eu/consumer/example-data-consumer> ; 
