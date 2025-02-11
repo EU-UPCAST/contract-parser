@@ -7,6 +7,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix wmo: <http://www.ict-abovo.eu/ontologies/WorkflowModel#> .
 
 
 <http://upcast-project.eu/offer/example-contract>
@@ -165,11 +166,11 @@
                     odrl:constraint [ # subject to the below environmental constraints
                     odrl:leftOperand upcast:operationEnergyConsumption ;
                     odrl:operator odrl:lteq ;
-                    odrl:rightOperand "500"^xsd:float ;                    
+                    odrl:rightOperand "500"^^xsd:float ;                    
                    ], [ 
                     odrl:leftOperand upcast:operationCarbonEmission ;
                     odrl:operator odrl:lteq ;
-                    odrl:rightOperand "300"^xsd:float ;                    
+                    odrl:rightOperand "300"^^xsd:float ;                    
                    ]                
                 ] ;                           
         ] .      
@@ -183,4 +184,4 @@
         a   upcast:DataProcessingWorkflow ;
         a   odrl:Action ;         
         wmo:wfPurposes      "Scientific Research and Development" ;
-        wmo:Initiators      <https://upcast-project.eu/consumer/example-data-consumer> ; 
+        wmo:Initiators      <https://upcast-project.eu/consumer/example-data-consumer> . 

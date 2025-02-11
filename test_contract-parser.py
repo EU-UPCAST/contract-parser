@@ -33,7 +33,7 @@ class TestContractParser(unittest.TestCase):
     def test_get_permitted_actions(self):
         permitted_actions = self.parser.get_permitted_actions()
         permitted_actions_values = {action[1] for action in permitted_actions}
-        self.assertEqual(permitted_actions_values, {"http://www.w3.org/ns/odrl/anonymize", "http://www.w3.org/ns/odrl/aggregate", "https://www.upcast-project.eu/upcast-vocab/1.0/Integrate"})   
+        self.assertEqual(permitted_actions_values, {"http://www.w3.org/ns/odrl/anonymize", "http://www.w3.org/ns/odrl/aggregate", "https://www.upcast-project.eu/upcast-vocab/1.0/Integrate","http://upcast-project.eu/dpws/example-dpw"})   
 
     def test_get_action_container(self):
         action_container = self.parser.get_action_container(actionValue="http://www.w3.org/ns/odrl/anonymize")
