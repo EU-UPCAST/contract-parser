@@ -180,38 +180,41 @@ class ContractParser:
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         PREFIX upcast: <https://www.upcast-project.eu/upcast-vocab/1.0/> 
 
-        SELECT ?rightOperand
+        SELECT ?rightOperand ?unit
         WHERE {
         ?actionIRI rdf:value ?actionValue .
         ?actionIRI odrl:constraint ?constraint .
         ?constraint odrl:leftOperand upcast:operationCarbonEmission ;
                     odrl:operator odrl:lteq;
-                    odrl:rightOperand ?rightOperand .
+                    odrl:rightOperand ?rightOperand;
+                    odrl:unit ?unit  .
         }
         """
         qres = list(self.contract_graph.query(query,initBindings={'actionValue': URIRef(actionValue)}))
         if len(qres) == 0:
             return None
         result = qres[0]
-        return result["rightOperand"].toPython()
+        return (result["rightOperand"].toPython(),result["unit"].toPython())
     
     def get_action_energy_consumption_limit(self,actionValue):
         """
         input: actionValue, that is the name of the action in string format
-        output: Float value of maximum energy consumption agreed for this operation (that is, operator less ro equal than is assumed)
+        output: tuple (value,unit), with value a float of maximum energy consumption agreed for this operation (that is, operator less ro equal than is assumed)
+             unit a string with the unit of the value
         """
         query = """
         PREFIX odrl: <http://www.w3.org/ns/odrl/>
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         PREFIX upcast: <https://www.upcast-project.eu/upcast-vocab/1.0/> 
 
-        SELECT ?rightOperand
+        SELECT ?rightOperand ?unit
         WHERE {
         ?actionIRI rdf:value ?actionValue .
         ?actionIRI odrl:constraint ?constraint .
         ?constraint odrl:leftOperand upcast:operationEnergyConsumption ;
                     odrl:operator odrl:lteq;
-                    odrl:rightOperand ?rightOperand .
+                    odrl:rightOperand ?rightOperand ;
+                    odrl:unit ?unit  .
         }
         """
         qres = self.contract_graph.query(query,initBindings={'actionValue': URIRef(actionValue)})
@@ -219,7 +222,7 @@ class ContractParser:
         if len(qres) == 0:
             return None
         result = qres[0]
-        return result["rightOperand"].toPython()
+        return (result["rightOperand"].toPython(),result["unit"].toPython())
     
     def get_action_datetime_constraints(self,actionValue):
         """

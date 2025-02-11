@@ -74,12 +74,15 @@ class TestContractParser(unittest.TestCase):
 
     def test_get_action_energy_consumption_limit(self):
         action_energy_limit = self.parser.get_action_energy_consumption_limit(actionValue="https://www.upcast-project.eu/upcast-vocab/1.0/Integrate")
-        self.assertEqual(action_energy_limit, 100)
+        self.assertEqual(action_energy_limit[0], 100)
+        self.assertEqual(action_energy_limit[1], "http://qudt.org/vocab/unit#KilowattHour")
 
 
     def test_get_action_carbon_emission_limit(self):
         action_carbon_limit = self.parser.get_action_carbon_emission_limit(actionValue="http://www.w3.org/ns/odrl/aggregate")
-        self.assertEqual(action_carbon_limit,200)
+        self.assertEqual(action_carbon_limit[0],200)
+        self.assertEqual(action_carbon_limit[1], "http://qudt.org/vocab/unit#Kilogram")
+
 
     def test_get_action_carbon_emission_limit_inexistent(self):
         action_carbon_limit = self.parser.get_action_carbon_emission_limit(actionValue="http://www.w3.org/ns/odrl/anonymize")

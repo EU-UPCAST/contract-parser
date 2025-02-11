@@ -75,7 +75,8 @@
                         [
                         odrl:leftOperand upcast:operationEnergyConsumption ;
                         odrl:operator odrl:lteq ;
-                        odrl:rightOperand "100"^^xsd:float
+                        odrl:rightOperand "100"^^xsd:float ;
+                        odrl:unit <http://qudt.org/vocab/unit#KilowattHour> ;
                         ];
                     odrl:refinement [ # implemented by this container
                         odrl:leftOperand upcast:implementedBy ;
@@ -127,7 +128,8 @@
                         [
                         odrl:leftOperand upcast:operationCarbonEmission ;
                         odrl:operator odrl:lteq ;
-                        odrl:rightOperand "200"^^xsd:float
+                        odrl:rightOperand "200"^^xsd:float ;
+                        odrl:unit <http://qudt.org/vocab/unit#Kilogram> ;
                         ];
                     odrl:refinement [ # implemented by this container
                     odrl:leftOperand upcast:implementedBy ;
