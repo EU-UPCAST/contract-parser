@@ -71,6 +71,25 @@ class TestContractParser(unittest.TestCase):
         self.assertEqual(len(action_datetime_constraints),2)
         self.assertIn(("lt",datetime.datetime(2025,5,15)), action_datetime_constraints)
         self.assertIn(("gt",datetime.datetime(2025,5,1)), action_datetime_constraints)    
+
+    def test_get_action_energy_consumption_limit(self):
+        action_energy_limit = self.parser.get_action_energy_consumption_limit(actionValue="https://www.upcast-project.eu/upcast-vocab/1.0/Integrate")
+        self.assertEqual(action_energy_limit, 100)
+
+
+    def test_get_action_carbon_emission_limit(self):
+        action_carbon_limit = self.parser.get_action_carbon_emission_limit(actionValue="http://www.w3.org/ns/odrl/aggregate")
+        self.assertEqual(action_carbon_limit,200)
+
+    def test_get_action_carbon_emission_limit_inexistent(self):
+        action_carbon_limit = self.parser.get_action_carbon_emission_limit(actionValue="http://www.w3.org/ns/odrl/anonymize")
+        self.assertIsNone(action_carbon_limit)
+
+        
+    def test_get_action_energy_consumption_limit_inexistent(self):
+        action_energy_limit = self.parser.get_action_energy_consumption_limit(actionValue="http://www.w3.org/ns/odrl/anonymize")
+        self.assertIsNone(action_energy_limit)
+        
     
     def test_get_action_dependencies(self):
         #action_dependencies = self.parser.get_action_dependencies(actionValue="http://www.w3.org/ns/odrl/anonymize")

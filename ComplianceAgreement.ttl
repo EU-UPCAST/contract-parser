@@ -62,15 +62,20 @@
                 odrl:target             <http://upcast-project.eu/dataset/example-dataset-agreed> ;
                 odrl:action [
                     rdf:value upcast:Integrate ; # Action Integrate
-                    odrl:constraint [
+                    odrl:constraint [ # Can't integrate after 2025-05-15
                         odrl:leftOperand odrl:dateTime ;
                         odrl:operator odrl:lt ;
                         odrl:rightOperand "2025-05-15"^^xsd:dateTime
                         ],
-                        [
+                        [ # Can't integrate before 2025-05-01
                         odrl:leftOperand odrl:dateTime ;
                         odrl:operator odrl:gt ;
                         odrl:rightOperand "2025-05-01"^^xsd:dateTime
+                        ],
+                        [
+                        odrl:leftOperand upcast:operationEnergyConsumption ;
+                        odrl:operator odrl:lteq ;
+                        odrl:rightOperand "100"^^xsd:float
                         ];
                     odrl:refinement [ # implemented by this container
                         odrl:leftOperand upcast:implementedBy ;
@@ -118,6 +123,11 @@
                         odrl:leftOperand odrl:dateTime ;
                         odrl:operator odrl:lt ;
                         odrl:rightOperand "2025-05-30"^^xsd:dateTime
+                        ],
+                        [
+                        odrl:leftOperand upcast:operationCarbonEmission ;
+                        odrl:operator odrl:lteq ;
+                        odrl:rightOperand "200"^^xsd:float
                         ];
                     odrl:refinement [ # implemented by this container
                     odrl:leftOperand upcast:implementedBy ;
@@ -143,4 +153,4 @@
                 odrl:duty [
                    odrl:action [ rdf:value odrl:anonymize ] ;  
                 ]                    
-        ] .      
+        ]; .      
