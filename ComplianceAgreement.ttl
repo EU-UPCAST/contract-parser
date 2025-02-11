@@ -163,11 +163,11 @@
                 odrl:action [
                     rdf:value <http://upcast-project.eu/dpws/example-dpw>  ; # A DPW is an action on a dataset
                     odrl:constraint [ # subject to the below environmental constraints
-                    odrl:leftOperand upcast:totalEnergyConsumption ;
+                    odrl:leftOperand upcast:operationEnergyConsumption ;
                     odrl:operator odrl:lteq ;
                     odrl:rightOperand "500"^xsd:float ;                    
                    ], [ 
-                    odrl:leftOperand upcast:totalCarbonEmission ;
+                    odrl:leftOperand upcast:operationCarbonEmission ;
                     odrl:operator odrl:lteq ;
                     odrl:rightOperand "300"^xsd:float ;                    
                    ]                
@@ -177,6 +177,7 @@
 # Minimal description of the workflow.
 # The Semantics is that applying the Workflow is one more action. It is however implied that sub-actions executed by the Workflow are permitted by the usage policies in an admissible order
 # An alternative semantics is to assume that all actions in the steps of the workflow become permitted when the workflow is allowed.
+# In that case, I'd expect a contract to include only permission to execute the workflow, and the workflow dscription to be included in the definition.
 
 <http://upcast-project.eu/dpws/example-dpw> 
         a   upcast:DataProcessingWorkflow ;
