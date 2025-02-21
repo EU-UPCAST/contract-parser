@@ -1,6 +1,6 @@
 # contract-parser
 A parser for ODRL contracts with convenience methods that encapsulate SPARQL queries that return commonly used information
-Tested with Python 3.11
+Requires Python==3.11, tested with Python 3.11.9
 
 
 Usage:

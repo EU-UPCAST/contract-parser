@@ -2,6 +2,13 @@ from rdflib import Graph, Namespace, URIRef
 from rdflib.namespace import RDF
 import datetime
 import logging
+import sys
+
+if sys.version_info[0] < 3:
+    raise Exception("Python 3.11 or higher is required.")
+if sys.version_info[1] < 11:
+    raise Exception("Python 3.11 or higher is required.")
+
 
 class ContractParser:
     IDSA = Namespace("https://w3id.org/idsa/core/")
