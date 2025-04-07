@@ -1,0 +1,271 @@
+@prefix upcast: <https://www.upcast-project.eu/upcast-vocab/1.0/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix idsa-core: <https://w3id.org/idsa/core/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix odrl: <http://www.w3.org/ns/odrl/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix wmo: <http://www.ict-abovo.eu/ontologies/WorkflowModel#> .
+@prefix dpv: <https://www.w3.org/TR/dpv/#> .
+
+
+<http://upcast-project.eu/contract/NHRF-Pilot-Contract>
+        a       upcast:Contract;
+        a       idsa-core:Contract;
+        upcast:refersTo         <http://upcast-project.eu/dataset/Genomic-Dataset-NHRF-Pilot>;
+        upcast:hasAgreement     <http://upcast-project.eu/agreement/NHRF-Pilot-ODRL-Agreement>;
+        upcast:hasNLP           "This is the contract between the NHRF and the A Genomic Data Provider" ;
+        #upcast:hasDPW           <http://upcast-project.eu/dpws/example-dpw> ;   
+        idsa-core:Consumer      <https://upcast-project.eu/consumer/NHRF> ;
+        idsa-core:Provider      <https://upcast-project.eu/provider/A-Genomic-Data-Provider> .
+
+
+<https://upcast-project.eu/provider/A-Genomic-Data-Provider>
+        a   foaf:Agent;
+        a   foaf:Organization;
+        foaf:name               "A Hospital that provided genomic data for NHRF to analyse" .
+
+<https://upcast-project.eu/consumer/NHRF>
+        a   foaf:Agent;
+        a   foaf:Organization;
+        foaf:name               "National Hellenic Research Foundation" .
+
+# Agreed dataset and distibution specification that governs this agreement.
+# Includes price and format
+       
+<http://upcast-project.eu/dataset/NHRF-Pilot-Dataset>
+        a   dcat:Dataset;
+        dct:title               "Genomic Dataset for NHRF Pilot" ;        
+        dct:description         "Genes and Blood samples from many patients with rare disease";
+        dcat:theme              "Health";
+        dcat:theme              "Genomics"; 
+        dct:spatial             "Greece";     
+        dct:publisher           <https://upcast-project.eu/provider/A-Genomic-Data-Provider>;
+        idsa-core:Provider      <https://upcast-project.eu/provider/A-Genomic-Data-Provider>;
+        dcat:distribution       <http://upcast-project.eu/dataset/NHRF-Pilot-Dataset/distribution/NHRF-Distribution-1> ;
+        odrl:hasPolicy          <http://upcast-project.eu/policy/Genomic-Provider-Initial-Offer> ;
+        
+<http://upcast-project.eu/NHRF-Pilot-Dataset/distribution/NHRF-Distribution-1>
+        a   dcat:Distribution;
+        dct:description   "The distribution of the genomic dataset for NHRF Pilot" ;
+        dct:format        "Genomic Data Format";
+        dct:title         "Blod Sample Data, maby patients with rare disease".
+
+# Agreement policies
+<http://upcast-project.eu/agreement/NHRF-Pilot-ODRL-Agreement>
+        a odrl:Agreement ;
+        odrl:prohibition [
+                odrl:assigner           <https://upcast-project.eu/provider/A-Genomic-Data-Provider>;
+                odrl:assignee           <https://upcast-project.eu/consumer/NHRF>;
+                odrl:target             <http://upcast-project.eu/NHRF-Pilot-Dataset/distribution/NHRF-Distribution-1> ;
+                odrl:action [
+                    rdf:value odrl:Move ; # Action Move (odrl parlance for "Transfer")
+                    odrl:constraint [ # Can't move outside NHRF, i.e, the recipient of the move action different from NHRF, activates policy, which is a prohibition	
+                        odrl:leftOperand odrl:recipient ;
+                        odrl:operator odrl:neq ;
+                        odrl:rightOperand <https://upcast-project.eu/consumer/NHRF>;
+                        ], [
+                        odrl:leftOperand dpv:Share ;
+                        odrl:operator odrl:neq ;
+                        odrl:rightOperand <https://upcast-project.eu/processor/AmazonWebServices>;    
+                        ],
+                        # Am I right this would be interpreted as an or? Or otherwise, is a conjunction correct here?    
+                        [ # Can't move to anywhere else than NHRF and Amazon Web Service, i.e, the recipient of the share action different from NHRF, activates policy, which is a prohibition	
+                        odrl:leftOperand odrl:recipient ;
+                        odrl:operator odrl:neq ;
+                        odrl:rightOperand <https://upcast-project.eu/consumer/NHRF>;
+                        ], 
+                        # Am I right this would be interpreted as an or? Or otherwise, is a conjunction correct here?    
+                            [
+                        odrl:leftOperand odrl:recipient ;
+                        odrl:operator odrl:neq ;
+                        odrl:rightOperand <https://upcast-project.eu/processor/AmazonWebServices>;    
+                        ]
+                ]   
+        ] ;
+        odrl:prohibition [
+                odrl:assigner           <https://upcast-project.eu/provider/A-Genomic-Data-Provider>;
+                odrl:assignee           <https://upcast-project.eu/consumer/NHRF>;
+                odrl:target             <http://upcast-project.eu/NHRF-Pilot-Dataset/distribution/NHRF-Distribution-1> ;
+                odrl:action [
+                    rdf:value dpv:Sharing ; # Action Share from DPV
+                    odrl:constraint [ # Can't Share with anyone else than NHRF and Amazon Web Service, i.e, the recipient of the share action different from NHRF, activates policy, which is a prohibition	
+                        odrl:leftOperand odrl:recipient ;
+                        odrl:operator odrl:neq ;
+                        odrl:rightOperand <https://upcast-project.eu/consumer/NHRF>;
+                        ], 
+                        # Am I right this would be interpreted as an or? Or otherwise, is a conjunction correct here?    
+                            [
+                        odrl:leftOperand odrl:recipient ;
+                        odrl:operator odrl:neq ;
+                        odrl:rightOperand <https://upcast-project.eu/processor/AmazonWebServices>;    
+                        ]
+                ]   
+        ] ;
+        odrl:permission [
+            odrl:assigner           <https://upcast-project.eu/provider/A-Genomic-Data-Provider>;
+            odrl:assignee [
+                a odrl:PartyCollection ; # A collection of parties, in this case, the NHRF staff members
+                odrl:source <https://eie.gr/partyCollection/StaffMembers> ; # Description at the end of the file
+                odrl:refinement [
+                    odrl:leftOperand nhrf:StaffRole ;
+                    odrl:operator odrl:eq ; 
+                    odrl:rightOperand "Senior Researcher"; # TODO: What if this is a property accessible as a chain query?
+                ] ;
+                ### Date Constraints    
+                odrl:constraint [
+                    odrl:leftOperand odrl:dateTime ;
+                    odrl:operator odrl:gt ;
+                    drl:rightOperand "2025-05-30"^^xsd:dateTime
+               ],
+               odrl:constraint [
+                    odrl:leftOperand odrl:dateTime ;
+                    odrl:operator odrl:gt ;
+                    drl:rightOperand "2026-06-30"^^xsd:dateTime
+               ]
+               ## Purpose Constrained to R&D (from DPV vocabulary)
+               odrl:constraint [
+                    odrl:leftOperand odrl:purpose ;
+                    odrl:operator odrl:eq ; # TODO: Potentially consider Hierarchy
+                    drl:rightOperand dpv:ResearchAndDevelopment ;
+               ]               
+            ]          
+            odrl:target             <http://upcast-project.eu/NHRF-Pilot-Dataset/distribution/NHRF-Distribution-1> ;
+            odrl:action [
+                rdf:value odrl:use ; # Action Use. Constrained to a party collection as per https://www.w3.org/TR/odrl-model/#constraint-party
+
+            ]
+        ]
+        ### DPW constraints, I think this is coming soon in this use case.
+        ### For now also including constraints on container implementation and execution Command        
+        odrl:permission [
+                odrl:assigner           <https://upcast-project.eu/provider/A-Genomic-Data-Provider>;
+                odrl:assignee           <https://upcast-project.eu/consumer/NHRF>;
+                odrl:target             <http://upcast-project.eu/NHRF-Pilot-Dataset/distribution/NHRF-Distribution-1> ;
+                odrl:action [
+                    rdf:value odrl:anonymize ; # Action Anonymize
+                    odrl:refinement [ # implemented by this container
+                    odrl:leftOperand upcast:implementedBy ;
+                    odrl:operator odrl:eq ;
+                    odrl:rightOperand <https://hub.docker.com/r/MyAnonymizer> ;                    
+                   ], [ #run with this command
+                    odrl:leftOperand upcast:executionCommand ;
+                    odrl:operator odrl:eq ;
+                    odrl:rightOperand "anonymize -level 3" ; 
+                   ] , [ #Must execute at least once
+                    odrl:leftOperand odrl:count ;
+                    odrl:operator odrl:gteq ;
+                    odrl:rightOperand 1 ; 
+                   ]                
+                ] ;  
+                # This states that integration comes before anonymization
+                odrl:duty [
+                   odrl:action [ rdf:value upcast:Integrate ]   
+                ]                    
+        ] ;
+        odrl:permission [
+                odrl:assigner           <https://upcast-project.eu/provider/example-data-provider>;
+                odrl:assignee           <https://upcast-project.eu/consumer/example-data-consumer>;
+                odrl:target             <http://upcast-project.eu/dataset/example-dataset-agreed> ;
+                odrl:action [
+                    rdf:value odrl:aggregate ; # Action aggregate
+                    odrl:constraint [
+                        odrl:leftOperand odrl:dateTime ;
+                        odrl:operator odrl:lt ;
+                        odrl:rightOperand "2025-05-30"^^xsd:dateTime
+                        ],
+                        [
+                        odrl:leftOperand upcast:operationCarbonEmission ;
+                        odrl:operator odrl:lteq ;
+                        odrl:rightOperand "200"^^xsd:float ;
+                        odrl:unit <http://qudt.org/vocab/unit#Kilogram> ;
+                        ];
+                    odrl:refinement [ # implemented by this container
+                    odrl:leftOperand upcast:implementedBy ;
+                    odrl:operator odrl:eq ;
+                    odrl:rightOperand <https://hub.docker.com/r/YourAggregator> ;                    
+                   ], [ #run with this command
+                    odrl:leftOperand upcast:executionCommand ;
+                    odrl:operator odrl:eq ;
+                    odrl:rightOperand "aggregate -agg sum" ; 
+                   ]
+                , [ #Can execute at most 3 times
+                    odrl:leftOperand odrl:count ;
+                    odrl:operator odrl:lteq ;
+                    odrl:rightOperand 3 ; 
+                   ]
+                , [ #Must execute at least once
+                    odrl:leftOperand odrl:count ;
+                    odrl:operator odrl:gteq ;
+                    odrl:rightOperand 1 ; 
+                   ]
+                ]  ;
+                # This states that anonymization comes before aggregation
+                odrl:duty [
+                   odrl:action [ rdf:value odrl:anonymize ] ;  
+                ]                    
+        ];
+        ### This one I left while we wait if we include DPW environmental constraints in the contract 
+        odrl:permission [
+                odrl:assigner           <https://upcast-project.eu/provider/example-data-provider>;
+                odrl:assignee           <https://upcast-project.eu/consumer/example-data-consumer>;
+                odrl:target             <http://upcast-project.eu/dataset/example-dataset-agreed> ;
+                odrl:action [
+                    rdf:value <http://upcast-project.eu/dpws/example-dpw>  ; # A DPW is an action on a dataset
+                    odrl:constraint [ # subject to the below environmental constraints
+                    odrl:leftOperand upcast:operationEnergyConsumption ;
+                    odrl:operator odrl:lteq ;
+                    odrl:rightOperand "500"^^xsd:float ;                    
+                   ], [ 
+                    odrl:leftOperand upcast:operationCarbonEmission ;
+                    odrl:operator odrl:lteq ;
+                    odrl:rightOperand "300"^^xsd:float ;                    
+                   ]                
+                ] ;                           
+        ] .      
+
+# Placeholder for DPW description if we go that far in this example.
+
+<http://upcast-project.eu/dpws/example-dpw> 
+        a   upcast:DataProcessingWorkflow ;
+        a   odrl:Action ;         
+        wmo:wfPurposes      dpv:ResearchAndDevelopment;
+        wmo:Initiators      <https://upcast-project.eu/consumer/example-data-consumer> .
+
+
+### For self-completeness, all entities referred in the contract are sufficiently described in the agreement
+### Alternatively, this is dereferenced from somewhere else, more private, but more difficult to handle and out of scope of UPCAST.
+### In this case, the PartyCollection of NHRF staff.
+
+<https://eie.gr/partyCollection/StaffMembers>
+        a   odrl:PartyCollection ;
+        dct:title               "NHRF Staff Members" ;
+        dct:description         "A collection of NHRF staff members" ; #Alternative formulation, define this group as the staff allowed to use the data and not constraint them       
+
+<https://eie.gr/people/Olga>
+        a   foaf:Person ;
+        foaf:name               "Olga Papadodima" ;
+        nhrf:StaffRole          "Senior Researcher" ; # TODO: What if this is a class?
+        odrl:partOf             <https://eie.gr/partyCollection/StaffMembers> ;
+
+<https://eie.gr/people/Lefteris>
+        a   foaf:Person ;
+        foaf:name               "Lefteris Pilalis" ;
+        nhrf:StaffRole          "Senior Researcher" ; # Hierarchy of roles must be in the Domain Specific Ontology
+        odrl:partOf             <https://eie.gr/partyCollection/StaffMembers> ;
+
+<https://eie.gr/people/Athena>
+        a   foaf:Person ;
+        foaf:name               "Goddess Athena" ;
+        nhrf:StaffRole          "Director of Research" ; 
+        odrl:partOf             <https://eie.gr/partyCollection/StaffMembers> ;
+        
+
+<https://eie.gr/people/Arachne>
+        a   foaf:Person ;
+        foaf:name               "Arachne Weaver" ;
+        nhrf:StaffRole          "Junior Researcher" ; 
+        odrl:partOf             <https://eie.gr/partyCollection/StaffMembers> ;
+        
