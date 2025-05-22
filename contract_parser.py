@@ -88,6 +88,33 @@ class ContractParser:
 
         return permitted_actions
     
+    def get_prohibited_actions(self):   
+        """
+        Convenience method to get the prohibited actions of the contract
+        """
+        
+        if self.contract_graph is None:
+            raise Exception("No contract loaded into this parser")
+        
+        # Permitted actions and their IRIs
+        query = """
+        PREFIX odrl: <http://www.w3.org/ns/odrl/>
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+        SELECT ?actionIRI ?actionValue
+        WHERE {
+        ?agreement a odrl:Agreement ;
+             odrl:prohibition ?prohibition .
+        ?prohibition odrl:action ?actionIRI .
+        ?actionIRI rdf:value ?actionValue .
+        }
+        """
+        query_results = self.contract_graph.query(query)
+        prohibited_actions = {(row.actionIRI,str(row.actionValue)) for row in query_results}
+
+
+        return prohibited_actions    
+    
     def get_action_container(self,actionValue):
         """
         Input: action Value, i.e. , its name in String format

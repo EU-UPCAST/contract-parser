@@ -35,6 +35,12 @@ class TestContractParser(unittest.TestCase):
         permitted_actions_values = {action[1] for action in permitted_actions}
         self.assertEqual(permitted_actions_values, {"http://www.w3.org/ns/odrl/anonymize", "http://www.w3.org/ns/odrl/aggregate", "https://www.upcast-project.eu/upcast-vocab/1.0/Integrate","http://upcast-project.eu/dpws/example-dpw"})   
 
+    def test_get_prohibited_actions(self):
+        prohibited_actions = self.parser.get_prohibited_actions()
+        prohibited_actions_values = {action[1] for action in prohibited_actions}
+        self.assertEqual(prohibited_actions_values, {"http://www.w3.org/ns/odrl/delete"})   
+
+
     def test_get_action_container(self):
         action_container = self.parser.get_action_container(actionValue="http://www.w3.org/ns/odrl/anonymize")
         self.assertEqual(action_container, "https://hub.docker.com/r/MyAnonymizer")     

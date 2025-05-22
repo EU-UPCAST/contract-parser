@@ -121,7 +121,7 @@
                 odrl:target             <http://upcast-project.eu/dataset/example-dataset-agreed> ;
                 odrl:action [
                     rdf:value odrl:aggregate ; # Action aggregate
-                    odrl:constraint [
+                    odrl:constraint [ # execute only before 2025-05-30
                         odrl:leftOperand odrl:dateTime ;
                         odrl:operator odrl:lt ;
                         odrl:rightOperand "2025-05-30"^^xsd:dateTime
@@ -152,7 +152,7 @@
                     odrl:rightOperand 1 ; 
                    ]
                 ]  ;
-                # This states that anonymization comes before aggregation
+                # This states that anonymization comes before aggregation.
                 odrl:duty [
                    odrl:action [ rdf:value odrl:anonymize ] ;  
                 ]                    
@@ -173,7 +173,20 @@
                     odrl:rightOperand "300"^^xsd:float ;                    
                    ]                
                 ] ;                           
-        ] .      
+        ];
+        odrl:prohibition [
+                odrl:assigner           <https://upcast-project.eu/provider/example-data-provider>;
+                odrl:assignee           <https://upcast-project.eu/consumer/example-data-consumer>;
+                odrl:target             <http://upcast-project.eu/dataset/example-dataset-agreed> ;
+                odrl:action [
+                    rdf:value odrl:delete ; # Action delete
+                    odrl:constraint [ # Prohibition to delete before 2025-05-10 
+                        odrl:leftOperand odrl:dateTime ;
+                        odrl:operator odrl:lt ;
+                        odrl:rightOperand "2025-05-10"^^xsd:dateTime
+                        ]     
+                 ] 
+        ].
 
 # Minimal description of the workflow.
 # The Semantics is that applying the Workflow is one more action. It is however implied that sub-actions executed by the Workflow are permitted by the usage policies in an admissible order
