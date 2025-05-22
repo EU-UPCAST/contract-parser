@@ -16,7 +16,8 @@
         a       idsa-core:Contract;
         upcast:refersTo         <http://upcast-project.eu/dataset/Genomic-Dataset-NHRF-Pilot>;
         upcast:hasAgreement     <http://upcast-project.eu/agreement/NHRF-Pilot-ODRL-Agreement>;
-        upcast:hasNLP           "This is the contract between the NHRF and the A Genomic Data Provider" ;
+        upcast:hasNLP           "This is an example contract between NHRF and a Provider of Genomic Data" ;
+        #this contract does not refer to a concrete DPW.
         #upcast:hasDPW           <http://upcast-project.eu/dpws/example-dpw> ;   
         idsa-core:Consumer      <https://upcast-project.eu/consumer/NHRF> ;
         idsa-core:Provider      <https://upcast-project.eu/provider/A-Genomic-Data-Provider> .
@@ -25,7 +26,7 @@
 <https://upcast-project.eu/provider/A-Genomic-Data-Provider>
         a   foaf:Agent;
         a   foaf:Organization;
-        foaf:name               "A Hospital that provided genomic data for NHRF to analyse" .
+        foaf:name               "A Provider of Genomic Data to NHRF" .
 
 <https://upcast-project.eu/consumer/NHRF>
         a   foaf:Agent;
@@ -51,7 +52,7 @@
         a   dcat:Distribution;
         dct:description   "The distribution of the genomic dataset for NHRF Pilot" ;
         dct:format        "Genomic Data Format";
-        dct:title         "Blod Sample Data, maby patients with rare disease".
+        dct:title         "Distribution in Genomic Data format of Genomic Dataset".
 
 # Agreement policies
 <http://upcast-project.eu/agreement/NHRF-Pilot-ODRL-Agreement>
@@ -61,28 +62,17 @@
                 odrl:assignee           <https://upcast-project.eu/consumer/NHRF>;
                 odrl:target             <http://upcast-project.eu/NHRF-Pilot-Dataset/distribution/NHRF-Distribution-1> ;
                 odrl:action [
+                   # Prohibition to move to a recipient other than NHRF and Amazon Web Service	     
                     rdf:value odrl:Move ; # Action Move (odrl parlance for "Transfer")
-                    odrl:constraint [ # Can't move outside NHRF, i.e, the recipient of the move action different from NHRF, activates policy, which is a prohibition	
+                    odrl:constraint [ 
                         odrl:leftOperand odrl:recipient ;
                         odrl:operator odrl:neq ;
                         odrl:rightOperand <https://upcast-project.eu/consumer/NHRF>;
                         ], [
-                        odrl:leftOperand dpv:Share ;
-                        odrl:operator odrl:neq ;
-                        odrl:rightOperand <https://upcast-project.eu/processor/AmazonWebServices>;    
-                        ],
-                        # Am I right this would be interpreted as an or? Or otherwise, is a conjunction correct here?    
-                        [ # Can't move to anywhere else than NHRF and Amazon Web Service, i.e, the recipient of the share action different from NHRF, activates policy, which is a prohibition	
-                        odrl:leftOperand odrl:recipient ;
-                        odrl:operator odrl:neq ;
-                        odrl:rightOperand <https://upcast-project.eu/consumer/NHRF>;
-                        ], 
-                        # Am I right this would be interpreted as an or? Or otherwise, is a conjunction correct here?    
-                            [
                         odrl:leftOperand odrl:recipient ;
                         odrl:operator odrl:neq ;
                         odrl:rightOperand <https://upcast-project.eu/processor/AmazonWebServices>;    
-                        ]
+                       ]
                 ]   
         ] ;
         odrl:prohibition [
@@ -90,13 +80,13 @@
                 odrl:assignee           <https://upcast-project.eu/consumer/NHRF>;
                 odrl:target             <http://upcast-project.eu/NHRF-Pilot-Dataset/distribution/NHRF-Distribution-1> ;
                 odrl:action [
+                    # Prohibition to share with a recipient other than NHRF and Amazon Web Service    
                     rdf:value dpv:Sharing ; # Action Share from DPV
-                    odrl:constraint [ # Can't Share with anyone else than NHRF and Amazon Web Service, i.e, the recipient of the share action different from NHRF, activates policy, which is a prohibition	
+                    odrl:constraint [ 
                         odrl:leftOperand odrl:recipient ;
                         odrl:operator odrl:neq ;
                         odrl:rightOperand <https://upcast-project.eu/consumer/NHRF>;
                         ], 
-                        # Am I right this would be interpreted as an or? Or otherwise, is a conjunction correct here?    
                             [
                         odrl:leftOperand odrl:recipient ;
                         odrl:operator odrl:neq ;
@@ -109,131 +99,48 @@
             odrl:assignee [
                 a odrl:PartyCollection ; # A collection of parties, in this case, the NHRF staff members
                 odrl:source <https://eie.gr/partyCollection/StaffMembers> ; # Description at the end of the file
+                #Restricted to staff role = Senior Researcher
                 odrl:refinement [
                     odrl:leftOperand nhrf:StaffRole ;
                     odrl:operator odrl:eq ; 
                     odrl:rightOperand "Senior Researcher"; # TODO: What if this is a property accessible as a chain query?
-                ] ;
-                ### Date Constraints    
-                odrl:constraint [
-                    odrl:leftOperand odrl:dateTime ;
-                    odrl:operator odrl:gt ;
-                    drl:rightOperand "2025-05-30"^^xsd:dateTime
-               ],
-               odrl:constraint [
-                    odrl:leftOperand odrl:dateTime ;
-                    odrl:operator odrl:gt ;
-                    drl:rightOperand "2026-06-30"^^xsd:dateTime
-               ]
-               ## Purpose Constrained to R&D (from DPV vocabulary)
-               odrl:constraint [
-                    odrl:leftOperand odrl:purpose ;
-                    odrl:operator odrl:eq ; # TODO: Potentially consider Hierarchy
-                    drl:rightOperand dpv:ResearchAndDevelopment ;
-               ]               
+                ]              
             ]          
             odrl:target             <http://upcast-project.eu/NHRF-Pilot-Dataset/distribution/NHRF-Distribution-1> ;
             odrl:action [
-                rdf:value odrl:use ; # Action Use. Constrained to a party collection as per https://www.w3.org/TR/odrl-model/#constraint-party
-
+                rdf:value odrl:use ; 
+                   ### Date Constraints    
+                odrl:constraint [
+                    odrl:leftOperand odrl:dateTime ;
+                    odrl:operator odrl:gt ;
+                    drl:rightOperand "2025-05-10"^^xsd:dateTime
+               ],
+                [
+                    odrl:leftOperand odrl:dateTime ;
+                    odrl:operator odrl:gt ;
+                    drl:rightOperand "2026-06-30"^^xsd:dateTime
+               ] ,
+               ## Purpose Constrained to R&D (from DPV vocabulary)
+               [
+                    odrl:leftOperand odrl:purpose ;
+                    odrl:operator odrl:eq ; 
+                    drl:rightOperand dpv:ResearchAndDevelopment ;
+               ]  
             ]
-        ]
-        ### DPW constraints, I think this is coming soon in this use case.
-        ### For now also including constraints on container implementation and execution Command        
-        odrl:permission [
-                odrl:assigner           <https://upcast-project.eu/provider/A-Genomic-Data-Provider>;
-                odrl:assignee           <https://upcast-project.eu/consumer/NHRF>;
-                odrl:target             <http://upcast-project.eu/NHRF-Pilot-Dataset/distribution/NHRF-Distribution-1> ;
-                odrl:action [
-                    rdf:value odrl:anonymize ; # Action Anonymize
-                    odrl:refinement [ # implemented by this container
-                    odrl:leftOperand upcast:implementedBy ;
-                    odrl:operator odrl:eq ;
-                    odrl:rightOperand <https://hub.docker.com/r/MyAnonymizer> ;                    
-                   ], [ #run with this command
-                    odrl:leftOperand upcast:executionCommand ;
-                    odrl:operator odrl:eq ;
-                    odrl:rightOperand "anonymize -level 3" ; 
-                   ] , [ #Must execute at least once
-                    odrl:leftOperand odrl:count ;
-                    odrl:operator odrl:gteq ;
-                    odrl:rightOperand 1 ; 
-                   ]                
-                ] ;  
-                # This states that integration comes before anonymization
-                odrl:duty [
-                   odrl:action [ rdf:value upcast:Integrate ]   
-                ]                    
         ] ;
+
         odrl:permission [
-                odrl:assigner           <https://upcast-project.eu/provider/example-data-provider>;
-                odrl:assignee           <https://upcast-project.eu/consumer/example-data-consumer>;
-                odrl:target             <http://upcast-project.eu/dataset/example-dataset-agreed> ;
-                odrl:action [
-                    rdf:value odrl:aggregate ; # Action aggregate
-                    odrl:constraint [
-                        odrl:leftOperand odrl:dateTime ;
-                        odrl:operator odrl:lt ;
-                        odrl:rightOperand "2025-05-30"^^xsd:dateTime
-                        ],
-                        [
-                        odrl:leftOperand upcast:operationCarbonEmission ;
-                        odrl:operator odrl:lteq ;
-                        odrl:rightOperand "200"^^xsd:float ;
-                        odrl:unit <http://qudt.org/vocab/unit#Kilogram> ;
-                        ];
-                    odrl:refinement [ # implemented by this container
-                    odrl:leftOperand upcast:implementedBy ;
-                    odrl:operator odrl:eq ;
-                    odrl:rightOperand <https://hub.docker.com/r/YourAggregator> ;                    
-                   ], [ #run with this command
-                    odrl:leftOperand upcast:executionCommand ;
-                    odrl:operator odrl:eq ;
-                    odrl:rightOperand "aggregate -agg sum" ; 
-                   ]
-                , [ #Can execute at most 3 times
-                    odrl:leftOperand odrl:count ;
-                    odrl:operator odrl:lteq ;
-                    odrl:rightOperand 3 ; 
-                   ]
-                , [ #Must execute at least once
-                    odrl:leftOperand odrl:count ;
-                    odrl:operator odrl:gteq ;
-                    odrl:rightOperand 1 ; 
-                   ]
-                ]  ;
-                # This states that anonymization comes before aggregation
-                odrl:duty [
-                   odrl:action [ rdf:value odrl:anonymize ] ;  
-                ]                    
-        ];
-        ### This one I left while we wait if we include DPW environmental constraints in the contract 
-        odrl:permission [
-                odrl:assigner           <https://upcast-project.eu/provider/example-data-provider>;
-                odrl:assignee           <https://upcast-project.eu/consumer/example-data-consumer>;
-                odrl:target             <http://upcast-project.eu/dataset/example-dataset-agreed> ;
-                odrl:action [
-                    rdf:value <http://upcast-project.eu/dpws/example-dpw>  ; # A DPW is an action on a dataset
-                    odrl:constraint [ # subject to the below environmental constraints
-                    odrl:leftOperand upcast:operationEnergyConsumption ;
-                    odrl:operator odrl:lteq ;
-                    odrl:rightOperand "500"^^xsd:float ;                    
-                   ], [ 
-                    odrl:leftOperand upcast:operationCarbonEmission ;
-                    odrl:operator odrl:lteq ;
-                    odrl:rightOperand "300"^^xsd:float ;                    
-                   ]                
-                ] ;                           
-        ] .      
+          odrl:assigner           <https://upcast-project.eu/provider/A-Genomic-Data-Provider>;
+          odrl:assignee           <https://upcast-project.eu/consumer/NHRF>;
+          odrl:target             <http://upcast-project.eu/NHRF-Pilot-Dataset/distribution/NHRF-Distribution-1> ;
+        ]
 
-# Placeholder for DPW description if we go that far in this example.
-
-<http://upcast-project.eu/dpws/example-dpw> 
-        a   upcast:DataProcessingWorkflow ;
-        a   odrl:Action ;         
-        wmo:wfPurposes      dpv:ResearchAndDevelopment;
-        wmo:Initiators      <https://upcast-project.eu/consumer/example-data-consumer> .
-
+        #TODO: Variants should be filtered regarding their somatic status before being further processed
+        # There are multiple ways to model this:
+        # Obligation to filter variant subject to the refinement that it must be done first. We would need to mint a left operand for expressing "First"
+        # Or Permission to dpv:Process, with the duty that filtering variants must be done first, we also need an operand to
+        # Variants should be filtered regarding their somatic status before being further processed
+           
 
 ### For self-completeness, all entities referred in the contract are sufficiently described in the agreement
 ### Alternatively, this is dereferenced from somewhere else, more private, but more difficult to handle and out of scope of UPCAST.
