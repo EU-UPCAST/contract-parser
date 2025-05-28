@@ -9,6 +9,7 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix wmo: <http://www.ict-abovo.eu/ontologies/WorkflowModel#> .
 @prefix dpv: <https://www.w3.org/TR/dpv/#> .
+@prefix nhrf: <https://eie.gr/ontologies/NHRF#> .
 
 
 <http://upcast-project.eu/contract/NHRF-Pilot-Contract>
@@ -46,7 +47,7 @@
         dct:publisher           <https://upcast-project.eu/provider/A-Genomic-Data-Provider>;
         idsa-core:Provider      <https://upcast-project.eu/provider/A-Genomic-Data-Provider>;
         dcat:distribution       <http://upcast-project.eu/dataset/NHRF-Pilot-Dataset/distribution/NHRF-Distribution-1> ;
-        odrl:hasPolicy          <http://upcast-project.eu/policy/Genomic-Provider-Initial-Offer> ;
+        odrl:hasPolicy          <http://upcast-project.eu/policy/Genomic-Provider-Initial-Offer> .
         
 <http://upcast-project.eu/NHRF-Pilot-Dataset/distribution/NHRF-Distribution-1>
         a   dcat:Distribution;
@@ -105,26 +106,26 @@
                     odrl:operator odrl:eq ; 
                     odrl:rightOperand "Senior Researcher"; # TODO: What if this is a property accessible as a chain query?
                 ]              
-            ]          
-            odrl:target             <http://upcast-project.eu/NHRF-Pilot-Dataset/distribution/NHRF-Distribution-1> ;
+            ] ;         
+            odrl:target             <http://upcast-project.eu/NHRF-Pilot-Dataset/distribution/NHRF-Distribution-1>;
             odrl:action [
                 rdf:value odrl:use ; 
                    ### Date Constraints    
                 odrl:constraint [
                     odrl:leftOperand odrl:dateTime ;
                     odrl:operator odrl:gt ;
-                    drl:rightOperand "2025-05-10"^^xsd:dateTime
+                    odrl:rightOperand "2025-05-10"^^xsd:dateTime
                ],
                 [
                     odrl:leftOperand odrl:dateTime ;
-                    odrl:operator odrl:gt ;
-                    drl:rightOperand "2026-06-30"^^xsd:dateTime
+                    odrl:operator odrl:lt ;
+                    odrl:rightOperand "2026-06-30"^^xsd:dateTime
                ] ,
                ## Purpose Constrained to R&D (from DPV vocabulary)
                [
                     odrl:leftOperand odrl:purpose ;
                     odrl:operator odrl:eq ; 
-                    drl:rightOperand dpv:ResearchAndDevelopment ;
+                    odrl:rightOperand dpv:ResearchAndDevelopment ;
                ]  
             ]
         ] ;
@@ -133,7 +134,7 @@
           odrl:assigner           <https://upcast-project.eu/provider/A-Genomic-Data-Provider>;
           odrl:assignee           <https://upcast-project.eu/consumer/NHRF>;
           odrl:target             <http://upcast-project.eu/NHRF-Pilot-Dataset/distribution/NHRF-Distribution-1> ;
-        ]
+        ] .
 
         #TODO: Variants should be filtered regarding their somatic status before being further processed
         # There are multiple ways to model this:
@@ -149,30 +150,30 @@
 <https://eie.gr/partyCollection/StaffMembers>
         a   odrl:PartyCollection ;
         dct:title               "NHRF Staff Members" ;
-        dct:description         "A collection of NHRF staff members" ; #Alternative formulation, define this group as the staff allowed to use the data and not constraint them       
+        dct:description         "A collection of NHRF staff members" . #Alternative formulation, define this group as the staff allowed to use the data and not constraint them       
 
 <https://eie.gr/people/Olga>
         a   foaf:Person ;
         foaf:name               "Olga Papadodima" ;
         nhrf:StaffRole          "Senior Researcher" ; # TODO: What if this is a class?
-        odrl:partOf             <https://eie.gr/partyCollection/StaffMembers> ;
+        odrl:partOf             <https://eie.gr/partyCollection/StaffMembers> .
 
 <https://eie.gr/people/Lefteris>
         a   foaf:Person ;
         foaf:name               "Lefteris Pilalis" ;
         nhrf:StaffRole          "Senior Researcher" ; # Hierarchy of roles must be in the Domain Specific Ontology
-        odrl:partOf             <https://eie.gr/partyCollection/StaffMembers> ;
+        odrl:partOf             <https://eie.gr/partyCollection/StaffMembers> .
 
 <https://eie.gr/people/Athena>
         a   foaf:Person ;
         foaf:name               "Goddess Athena" ;
         nhrf:StaffRole          "Director of Research" ; 
-        odrl:partOf             <https://eie.gr/partyCollection/StaffMembers> ;
+        odrl:partOf             <https://eie.gr/partyCollection/StaffMembers> .
         
 
 <https://eie.gr/people/Arachne>
         a   foaf:Person ;
         foaf:name               "Arachne Weaver" ;
         nhrf:StaffRole          "Junior Researcher" ; 
-        odrl:partOf             <https://eie.gr/partyCollection/StaffMembers> ;
+        odrl:partOf             <https://eie.gr/partyCollection/StaffMembers> .
         
