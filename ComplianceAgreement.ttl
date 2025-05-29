@@ -63,17 +63,7 @@
                 odrl:target             <http://upcast-project.eu/dataset/example-dataset-agreed> ;
                 odrl:action [
                     rdf:value upcast:Integrate ; # Action Integrate
-                    odrl:constraint [ # Can't integrate after 2025-05-15
-                        odrl:leftOperand odrl:dateTime ;
-                        odrl:operator odrl:lt ;
-                        odrl:rightOperand "2025-05-15"^^xsd:dateTime
-                        ],
-                        [ # Can't integrate before 2025-05-01
-                        odrl:leftOperand odrl:dateTime ;
-                        odrl:operator odrl:gt ;
-                        odrl:rightOperand "2025-05-01"^^xsd:dateTime
-                        ],
-                        [
+                    odrl:constraint [
                         odrl:leftOperand upcast:operationEnergyConsumption ;
                         odrl:operator odrl:lteq ;
                         odrl:rightOperand "100"^^xsd:float ;
@@ -88,7 +78,17 @@
                         odrl:operator odrl:eq ;
                         odrl:rightOperand "upintegrate $target $x"  
                         ]
-                ]   
+                ] ;
+                odrl:constraint [ # Permission is valid up to before 2025-05-15
+                        odrl:leftOperand odrl:dateTime ;
+                        odrl:operator odrl:lt ;
+                        odrl:rightOperand "2025-05-15"^^xsd:dateTime
+                        ],
+                        [ # Permission is valid after 2025-05-01
+                        odrl:leftOperand odrl:dateTime ;
+                        odrl:operator odrl:gt ;
+                        odrl:rightOperand "2025-05-01"^^xsd:dateTime
+                        ]   
         ] ;
         odrl:permission [
                 odrl:assigner           <https://upcast-project.eu/provider/example-data-provider>;
@@ -112,7 +112,7 @@
                 ] ;  
                 # This states that integration comes before anonymization
                 odrl:duty [
-                   odrl:action [ rdf:value upcast:Integrate ]   
+                   odrl:action [ rdf:value upcast:Integratezz ]   
                 ]                    
         ] ;
         odrl:permission [
@@ -121,42 +121,42 @@
                 odrl:target             <http://upcast-project.eu/dataset/example-dataset-agreed> ;
                 odrl:action [
                     rdf:value odrl:aggregate ; # Action aggregate
-                    odrl:constraint [ # execute only before 2025-05-30
-                        odrl:leftOperand odrl:dateTime ;
-                        odrl:operator odrl:lt ;
-                        odrl:rightOperand "2025-05-30"^^xsd:dateTime
-                        ],
-                        [
+                    odrl:constraint [
                         odrl:leftOperand upcast:operationCarbonEmission ;
                         odrl:operator odrl:lteq ;
                         odrl:rightOperand "200"^^xsd:float ;
                         odrl:unit <http://qudt.org/vocab/unit#Kilogram> ;
                         ];
-                    odrl:refinement [ # implemented by this container
-                    odrl:leftOperand upcast:implementedBy ;
-                    odrl:operator odrl:eq ;
-                    odrl:rightOperand <https://hub.docker.com/r/YourAggregator> ;                    
-                   ], [ #run with this command
-                    odrl:leftOperand upcast:executionCommand ;
-                    odrl:operator odrl:eq ;
-                    odrl:rightOperand "aggregate -agg sum" ; 
-                   ]
-                , [ #Can execute at most 3 times
-                    odrl:leftOperand odrl:count ;
-                    odrl:operator odrl:lteq ;
-                    odrl:rightOperand 3 ; 
-                   ]
-                , [ #Must execute at least once
-                    odrl:leftOperand odrl:count ;
-                    odrl:operator odrl:gteq ;
-                    odrl:rightOperand 1 ; 
-                   ]
-                ]  ;
-                # This states that anonymization comes before aggregation.
+                        odrl:refinement [ # implemented by this container
+                        odrl:leftOperand upcast:implementedBy ;
+                        odrl:operator odrl:eq ;
+                        odrl:rightOperand <https://hub.docker.com/r/YourAggregator> ;                    
+                        ], [ #run with this command
+                        odrl:leftOperand upcast:executionCommand ;
+                        odrl:operator odrl:eq ;
+                        odrl:rightOperand "aggregate -agg sum" ; 
+                        ]
+                        , [ #Can execute at most 3 times
+                        odrl:leftOperand odrl:count ;
+                        odrl:operator odrl:lteq ;
+                        odrl:rightOperand 3 ; 
+                        ]
+                        , [ #Must execute at least once
+                        odrl:leftOperand odrl:count ;
+                        odrl:operator odrl:gteq ;
+                        odrl:rightOperand 1 ; 
+                        ]
+                        ]  ;
+                        # This states that anonymization comes before aggregation.
                 odrl:duty [
-                   odrl:action [ rdf:value odrl:anonymize ] ;  
-                ]                    
-        ];
+                        odrl:action [ rdf:value odrl:anonymize ] ;  
+                        ] ;
+                odrl:constraint [ # Permission valid until 2025-05-30
+                        odrl:leftOperand odrl:dateTime ;
+                        odrl:operator odrl:lt ;
+                        odrl:rightOperand "2025-05-30"^^xsd:dateTime
+                        ]                    
+        ] ;     
         odrl:permission [
                 odrl:assigner           <https://upcast-project.eu/provider/example-data-provider>;
                 odrl:assignee           <https://upcast-project.eu/consumer/example-data-consumer>;
@@ -178,15 +178,14 @@
                 odrl:assigner           <https://upcast-project.eu/provider/example-data-provider>;
                 odrl:assignee           <https://upcast-project.eu/consumer/example-data-consumer>;
                 odrl:target             <http://upcast-project.eu/dataset/example-dataset-agreed> ;
-                odrl:action [
-                    rdf:value odrl:delete ; # Action delete
-                    odrl:constraint [ # Prohibition to delete before 2025-05-10 
+                odrl:action odrl:delete ;
+                odrl:constraint [ # Prohibition to delete before 2025-05-10 
                         odrl:leftOperand odrl:dateTime ;
                         odrl:operator odrl:lt ;
                         odrl:rightOperand "2025-05-10"^^xsd:dateTime
-                        ]     
-                 ] 
-        ].
+                        ]
+        ] .     
+           
 
 # Minimal description of the workflow.
 # The Semantics is that applying the Workflow is one more action. It is however implied that sub-actions executed by the Workflow are permitted by the usage policies in an admissible order

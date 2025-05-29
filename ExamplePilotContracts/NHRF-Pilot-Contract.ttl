@@ -82,7 +82,7 @@
                 odrl:target             <http://upcast-project.eu/NHRF-Pilot-Dataset/distribution/NHRF-Distribution-1> ;
                 odrl:action [
                     # Prohibition to share with a recipient other than NHRF and Amazon Web Service    
-                    rdf:value dpv:Sharing ; # Action Share from DPV
+                    rdf:value dpv:Sharing ; # Action Share from DPV # Change this on to use DPV Third Party
                     odrl:constraint [ 
                         odrl:leftOperand odrl:recipient ;
                         odrl:operator odrl:neq ;
@@ -99,19 +99,18 @@
             odrl:assigner           <https://upcast-project.eu/provider/A-Genomic-Data-Provider>;
             odrl:assignee [
                 a odrl:PartyCollection ; # A collection of parties, in this case, the NHRF staff members
-                odrl:source <https://eie.gr/partyCollection/StaffMembers> ; # Description at the end of the file
+                odrl:source <https://eie.gr/partyCollection/StaffMembers> ; # Description at the end of the file # Change to UPACST top level domain.
                 #Restricted to staff role = Senior Researcher
                 odrl:refinement [
                     odrl:leftOperand nhrf:StaffRole ;
                     odrl:operator odrl:eq ; 
-                    odrl:rightOperand "Senior Researcher"; # TODO: What if this is a property accessible as a chain query?
+                    odrl:rightOperand "Senior Researcher"; # TODO: Change to Concept of Domain specific ontology.
                 ]              
             ] ;         
-            odrl:target             <http://upcast-project.eu/NHRF-Pilot-Dataset/distribution/NHRF-Distribution-1>;
-            odrl:action [
-                rdf:value odrl:use ; 
-                   ### Date Constraints    
-                odrl:constraint [
+            odrl:target             <http://upcast-project.eu/NHRF-Pilot-Dataset/distribution/NHRF-Distribution-1>; ## Change to Dataset.
+            odrl:action         odrl:use ; 
+                   ### Date Constraints    ## Double check if thiese constraints belong to Action or belong to Rule. Abovo says Purpose and Datetiem should be rule.
+            odrl:constraint [
                     odrl:leftOperand odrl:dateTime ;
                     odrl:operator odrl:gt ;
                     odrl:rightOperand "2025-05-10"^^xsd:dateTime
@@ -126,8 +125,7 @@
                     odrl:leftOperand odrl:purpose ;
                     odrl:operator odrl:eq ; 
                     odrl:rightOperand dpv:ResearchAndDevelopment ;
-               ]  
-            ]
+               ] .
         ] ;
 
         odrl:permission [

@@ -32,13 +32,13 @@ class TestContractParser(unittest.TestCase):
 
     def test_get_permitted_actions(self):
         permitted_actions = self.parser.get_permitted_actions()
-        permitted_actions_values = {action[1] for action in permitted_actions}
-        self.assertEqual(permitted_actions_values, {"http://www.w3.org/ns/odrl/anonymize", "http://www.w3.org/ns/odrl/aggregate", "https://www.upcast-project.eu/upcast-vocab/1.0/Integrate","http://upcast-project.eu/dpws/example-dpw"})   
+        #permitted_actions_values = {action[1] for action in permitted_actions}
+        self.assertEqual(permitted_actions, {"http://www.w3.org/ns/odrl/anonymize", "http://www.w3.org/ns/odrl/aggregate", "https://www.upcast-project.eu/upcast-vocab/1.0/Integrate","http://upcast-project.eu/dpws/example-dpw"})   
 
     def test_get_prohibited_actions(self):
         prohibited_actions = self.parser.get_prohibited_actions()
-        prohibited_actions_values = {action[1] for action in prohibited_actions}
-        self.assertEqual(prohibited_actions_values, {"http://www.w3.org/ns/odrl/delete"})   
+        #prohibited_actions_values = {action[1] for action in prohibited_actions}
+        self.assertEqual(prohibited_actions, {"http://www.w3.org/ns/odrl/delete"})   
 
 
     def test_get_action_container(self):
@@ -69,14 +69,14 @@ class TestContractParser(unittest.TestCase):
     def test_get_action_datetime_constraint_single(self):
         action_datetime_constraints = self.parser.get_action_datetime_constraints(actionValue="http://www.w3.org/ns/odrl/aggregate")
         self.assertEqual(len(action_datetime_constraints),1)
-        self.assertIn(("lt",datetime.datetime(2025,5,30)), action_datetime_constraints)
+        self.assertIn(("permission","lt",datetime.datetime(2025,5,30)), action_datetime_constraints)
             
 
     def test_get_action_datetime_constraint_double(self):
         action_datetime_constraints = self.parser.get_action_datetime_constraints(actionValue="https://www.upcast-project.eu/upcast-vocab/1.0/Integrate")
         self.assertEqual(len(action_datetime_constraints),2)
-        self.assertIn(("lt",datetime.datetime(2025,5,15)), action_datetime_constraints)
-        self.assertIn(("gt",datetime.datetime(2025,5,1)), action_datetime_constraints)    
+        self.assertIn(("permission","lt",datetime.datetime(2025,5,15)), action_datetime_constraints)
+        self.assertIn(("permission","gt",datetime.datetime(2025,5,1)), action_datetime_constraints)    
 
     def test_get_action_energy_consumption_limit(self):
         action_energy_limit = self.parser.get_action_energy_consumption_limit(actionValue="https://www.upcast-project.eu/upcast-vocab/1.0/Integrate")

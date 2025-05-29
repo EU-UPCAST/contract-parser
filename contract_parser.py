@@ -74,16 +74,19 @@ class ContractParser:
         PREFIX odrl: <http://www.w3.org/ns/odrl/>
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
-        SELECT ?actionIRI ?actionValue
+        SELECT ?actionValue
         WHERE {
         ?agreement a odrl:Agreement ;
              odrl:permission ?permission .
-        ?permission odrl:action ?actionIRI .
-        ?actionIRI rdf:value ?actionValue .
+         {?permission odrl:action ?actionValue .}
+        UNION
+        {?permission odrl:action ?actionIRI .
+         ?actionIRI rdf:value ?actionValue .}
+        
         }
         """
         query_results = self.contract_graph.query(query)
-        permitted_actions = {(row.actionIRI,str(row.actionValue)) for row in query_results}
+        permitted_actions = {str(row.actionValue) for row in query_results if isinstance(row.actionValue,URIRef)}
 
 
         return permitted_actions
@@ -101,18 +104,17 @@ class ContractParser:
         PREFIX odrl: <http://www.w3.org/ns/odrl/>
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
-        SELECT ?actionIRI ?actionValue
+        SELECT ?actionValue
         WHERE {
-        ?agreement a odrl:Agreement ;
-             odrl:prohibition ?prohibition .
-        ?prohibition odrl:action ?actionIRI .
-        ?actionIRI rdf:value ?actionValue .
+        ?agreement odrl:prohibition ?prohibition . 
+        {?prohibition odrl:action ?actionValue .}
+        UNION
+        {?prohibition odrl:action ?actionIRI .
+         ?actionIRI rdf:value ?actionValue .}
         }
         """
-        query_results = self.contract_graph.query(query)
-        prohibited_actions = {(row.actionIRI,str(row.actionValue)) for row in query_results}
-
-
+        query_results = self.contract_graph.query(query)  
+        prohibited_actions = {str(row.actionValue) for row in query_results if isinstance(row.actionValue,URIRef)}        
         return prohibited_actions    
     
     def get_action_container(self,actionValue):
@@ -261,7 +263,7 @@ class ContractParser:
     def get_action_datetime_constraints(self,actionValue):
         """
         input: actionValue, that is the name of the action in string format
-        output: list of tuple of the form (operator, datetime) where operator is the comparison odrl operator (eq,lt,lteq,gteq,gt) and datetime is the constrained datetime.
+        output: list of tuple of the form (rule,operator, datetime) where rule is one of {Permission,Prohibition,Duty}, operator is the comparison odrl operator (eq,lt,lteq,gteq,gt) and datetime is the constrained datetime.
                 An empty list is returned if the action does not have any datetime constraint.
         """
         query = """
@@ -269,10 +271,13 @@ class ContractParser:
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         PREFIX upcast: <https://www.upcast-project.eu/upcast-vocab/1.0/> 
 
-        SELECT ?operator ?rightOperand
+        SELECT ?rule ?operator ?rightOperand
         WHERE {
+        ?policy a odrl:Agreement .
+        ?policy ?rule ?rulesetBnode .
+        ?rulesetBnode odrl:action ?actionIRI .
         ?actionIRI rdf:value ?actionValue .
-        ?actionIRI odrl:constraint ?constraint .
+        ?rulesetBnode odrl:constraint ?constraint .
         ?constraint odrl:leftOperand odrl:dateTime ;
                     odrl:operator ?operator;
                     odrl:rightOperand ?rightOperand .
@@ -281,9 +286,11 @@ class ContractParser:
         qres = self.contract_graph.query(query,initBindings={'actionValue': URIRef(actionValue)})
         limits = []
         for row in qres:
+            #print(row)
+            rule = str(row["rule"]).split("/")[-1]
             operator = str(row["operator"]).split("/")[-1]
             value = row["rightOperand"].toPython()
-            limits.append((operator,value)) 
+            limits.append((rule,operator,value)) 
         return limits
 
     def get_action_dependencies(self,actionValue):
