@@ -1,0 +1,90 @@
+@prefix upcast: <https://www.upcast-project.eu/upcast-vocab/1.0/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix idsa-core: <https://w3id.org/idsa/core/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix odrl: <http://www.w3.org/ns/odrl/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix wmo: <http://www.ict-abovo.eu/ontologies/WorkflowModel#> .
+@prefix dpv: <https://www.w3.org/TR/dpv/#> .
+@prefix nissa: <https://upcast-project.eu/dso/Nissatech#> .
+
+
+<http://upcast-project.eu/contract/NHRF-Pilot-Contract>
+        a       upcast:Contract;
+        a       idsa-core:Contract;
+        upcast:refersTo         <http://upcast-project.eu/dataset/Genomic-Dataset-NHRF-Pilot>;
+        upcast:hasAgreement     <http://upcast-project.eu/agreement/NHRF-Pilot-ODRL-Agreement>;
+        upcast:hasNLP           "This is an example contract between Nissatech and a Consumer of their Genomic Data" ;
+        #this contract does not refer to a concrete DPW.
+        #upcast:hasDPW           <http://upcast-project.eu/dpws/example-dpw> ;   
+        idsa-core:Consumer      <https://upcast-project.eu/consumer/NHRF> ;
+        idsa-core:Provider      <https://upcast-project.eu/provider/A-Genomic-Data-Provider> .
+
+
+<https://upcast-project.eu/consumer/A-Wellbeing-Data-Consumer>
+        a   foaf:Agent;
+        a   foaf:Organization;
+        foaf:name               "A Consumer of Wellbeing data of Data Consumer" .
+
+<https://upcast-project.eu/provider/Nissatech>
+        a   foaf:Agent;
+        a   foaf:Organization;
+        foaf:name               "Nissatech" .
+
+# Agreed dataset and distibution specification that governs this agreement.
+# Includes price and format
+       
+<https://upcast-project.eu/dataset/Nissatech-Pilot-Dataset>
+        a   dcat:Dataset;
+        dct:title               "Wellbeing Dataset for Nisattech Pilot" ;        
+        dct:description         "Aggregation of wellbeing and biomecanical measurements from trainees of Smart Gyms powered by Nissatech";
+        dcat:theme              "Health";
+        dcat:theme              "Sport"; 
+        dct:spatial             "Serbia";     
+        dct:publisher           <https://upcast-project.eu/provider/Nissatech>;
+        idsa-core:Provider      <https://upcast-project.eu/provider/Nissatech>;
+        dcat:distribution       <http://upcast-project.eu/dataset/NHRF-Pilot-Dataset/distribution/Nissatech-Distribution-1> ;
+        odrl:hasPolicy          <http://upcast-project.eu/policy/Nissatech-provider-policy> .
+        
+<https://upcast-project.eu/NHRF-Pilot-Dataset/distribution/NHRF-Distribution-1>
+        a   dcat:Distribution;
+        dct:description   "The distribution of the wellbeing and biomecanical measurements dataset for Nissatech Pilot" ;
+        dct:format        "MongoDB";
+        dct:title         "Wellbeing and biomecanical measurements for Serbian gymgoers".
+
+# Agreement
+<http://upcast-project.eu/agreement/Nissatech-Pilot-ODRL-Agreement>
+        a odrl:Agreement ;
+        #Permission
+        odrl:permission [
+                odrl:assigner           <https://upcast-project.eu/provider/Nissatech>;
+                odrl:assignee           <https://upcast-project.eu/consumer/A-Wellbeing-Data-Consumer>;
+                odrl:target [
+                        a odrl:AssetCollection ;
+                        odrl:refinement [
+                                odrl:leftOperand upcast:columns ;
+                                odrl:operator odrl:eq ;
+                                odrl:rightOperand "https://upcast-project.eu/dso/Nissatech#CaloriesBurned , https://upcast-project.eu/dso/Nissatech#HeartRateRange"
+                                ] ;
+                        odrl:source <https://upcast-project.eu/dataset/Nissatech-Pilot-Dataset>
+                        ] ;         
+                odrl:action             dpv:Process ; 
+                odrl:constraint [
+                    odrl:leftOperand odrl:dateTime ;
+                    odrl:operator odrl:gt ;
+                    odrl:rightOperand "2025-05-10"^^xsd:dateTime
+               ],
+                [
+                    odrl:leftOperand odrl:dateTime ;
+                    odrl:operator odrl:lt ;
+                    odrl:rightOperand "2026-06-30"^^xsd:dateTime
+               ] 
+        ].
+
+
+       
+
+        
