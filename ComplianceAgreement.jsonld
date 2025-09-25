@@ -1,22 +1,22 @@
 [
     {
        "@id":"_:b0",
-       "http://www.w3.org/ns/odrl/assigner":[
+       "http://www.w3.org/ns/odrl/2/assigner":[
           {
              "@id":"https://upcast-project.eu/provider/example-data-provider"
           }
        ],
-       "http://www.w3.org/ns/odrl/assignee":[
+       "http://www.w3.org/ns/odrl/2/assignee":[
           {
              "@id":"https://upcast-project.eu/consumer/example-data-consumer"
           }
        ],
-       "http://www.w3.org/ns/odrl/target":[
+       "http://www.w3.org/ns/odrl/2/target":[
           {
              "@id":"http://upcast-project.eu/dataset/example-dataset-agreed"
           }
        ],
-       "http://www.w3.org/ns/odrl/action":[
+       "http://www.w3.org/ns/odrl/2/action":[
           {
              "@id":"_:b4"
           }
@@ -24,27 +24,27 @@
     },
     {
        "@id":"_:b1",
-       "http://www.w3.org/ns/odrl/assigner":[
+       "http://www.w3.org/ns/odrl/2/assigner":[
           {
              "@id":"https://upcast-project.eu/provider/example-data-provider"
           }
        ],
-       "http://www.w3.org/ns/odrl/assignee":[
+       "http://www.w3.org/ns/odrl/2/assignee":[
           {
              "@id":"https://upcast-project.eu/consumer/example-data-consumer"
           }
        ],
-       "http://www.w3.org/ns/odrl/target":[
+       "http://www.w3.org/ns/odrl/2/target":[
           {
              "@id":"http://upcast-project.eu/dataset/example-dataset-agreed"
           }
        ],
-       "http://www.w3.org/ns/odrl/action":[
+       "http://www.w3.org/ns/odrl/2/action":[
           {
              "@id":"_:b10"
           }
        ],
-       "http://www.w3.org/ns/odrl/duty":[
+       "http://www.w3.org/ns/odrl/2/duty":[
           {
              "@id":"_:b11"
           }
@@ -54,10 +54,10 @@
        "@id":"_:b10",
        "http://www.w3.org/1999/02/22-rdf-syntax-ns#value":[
           {
-             "@id":"http://www.w3.org/ns/odrl/anonymize"
+             "@id":"http://www.w3.org/ns/odrl/2/anonymize"
           }
        ],
-       "http://www.w3.org/ns/odrl/refinement":[
+       "http://www.w3.org/ns/odrl/2/refinement":[
           {
              "@id":"_:b12"
           },
@@ -71,7 +71,7 @@
     },
     {
        "@id":"_:b11",
-       "http://www.w3.org/ns/odrl/action":[
+       "http://www.w3.org/ns/odrl/2/action":[
           {
              "@id":"_:b15"
           }
@@ -79,17 +79,17 @@
     },
     {
        "@id":"_:b12",
-       "http://www.w3.org/ns/odrl/leftOperand":[
+       "http://www.w3.org/ns/odrl/2/leftOperand":[
           {
              "@id":"https://www.upcast-project.eu/upcast-vocab/1.0/implementedBy"
           }
        ],
-       "http://www.w3.org/ns/odrl/operator":[
+       "http://www.w3.org/ns/odrl/2/operator":[
           {
-             "@id":"http://www.w3.org/ns/odrl/eq"
+             "@id":"http://www.w3.org/ns/odrl/2/eq"
           }
        ],
-       "http://www.w3.org/ns/odrl/rightOperand":[
+       "http://www.w3.org/ns/odrl/2/rightOperand":[
           {
              "@id":"https://hub.docker.com/r/MyAnonymizer"
           }
@@ -97,17 +97,17 @@
     },
     {
        "@id":"_:b13",
-       "http://www.w3.org/ns/odrl/leftOperand":[
+       "http://www.w3.org/ns/odrl/2/leftOperand":[
           {
              "@id":"https://www.upcast-project.eu/upcast-vocab/1.0/executionCommand"
           }
        ],
-       "http://www.w3.org/ns/odrl/operator":[
+       "http://www.w3.org/ns/odrl/2/operator":[
           {
-             "@id":"http://www.w3.org/ns/odrl/eq"
+             "@id":"http://www.w3.org/ns/odrl/2/eq"
           }
        ],
-       "http://www.w3.org/ns/odrl/rightOperand":[
+       "http://www.w3.org/ns/odrl/2/rightOperand":[
           {
              "@value":"anonymize -level 3"
           }
@@ -115,17 +115,17 @@
     },
     {
        "@id":"_:b14",
-       "http://www.w3.org/ns/odrl/leftOperand":[
+       "http://www.w3.org/ns/odrl/2/leftOperand":[
           {
-             "@id":"http://www.w3.org/ns/odrl/count"
+             "@id":"http://www.w3.org/ns/odrl/2/count"
           }
        ],
-       "http://www.w3.org/ns/odrl/operator":[
+       "http://www.w3.org/ns/odrl/2/operator":[
           {
-             "@id":"http://www.w3.org/ns/odrl/gteq"
+             "@id":"http://www.w3.org/ns/odrl/2/gteq"
           }
        ],
-       "http://www.w3.org/ns/odrl/rightOperand":[
+       "http://www.w3.org/ns/odrl/2/rightOperand":[
           {
              "@value":1
           }
@@ -143,10 +143,10 @@
        "@id":"_:b16",
        "http://www.w3.org/1999/02/22-rdf-syntax-ns#value":[
           {
-             "@id":"http://www.w3.org/ns/odrl/aggregate"
+             "@id":"http://www.w3.org/ns/odrl/2/aggregate"
           }
        ],
-       "http://www.w3.org/ns/odrl/constraint":[
+       "http://www.w3.org/ns/odrl/2/constraint":[
           {
              "@id":"_:b18"
           },
@@ -154,7 +154,7 @@
              "@id":"_:b19"
           }
        ],
-       "http://www.w3.org/ns/odrl/refinement":[
+       "http://www.w3.org/ns/odrl/2/refinement":[
           {
              "@id":"_:b20"
           },
@@ -171,7 +171,7 @@
     },
     {
        "@id":"_:b17",
-       "http://www.w3.org/ns/odrl/action":[
+       "http://www.w3.org/ns/odrl/2/action":[
           {
              "@id":"_:b24"
           }
@@ -179,17 +179,17 @@
     },
     {
        "@id":"_:b18",
-       "http://www.w3.org/ns/odrl/leftOperand":[
+       "http://www.w3.org/ns/odrl/2/leftOperand":[
           {
-             "@id":"http://www.w3.org/ns/odrl/dateTime"
+             "@id":"http://www.w3.org/ns/odrl/2/dateTime"
           }
        ],
-       "http://www.w3.org/ns/odrl/operator":[
+       "http://www.w3.org/ns/odrl/2/operator":[
           {
-             "@id":"http://www.w3.org/ns/odrl/lt"
+             "@id":"http://www.w3.org/ns/odrl/2/lt"
           }
        ],
-       "http://www.w3.org/ns/odrl/rightOperand":[
+       "http://www.w3.org/ns/odrl/2/rightOperand":[
           {
              "@value":"2025-05-30",
              "@type":"http://www.w3.org/2001/XMLSchema#dateTime"
@@ -198,23 +198,23 @@
     },
     {
        "@id":"_:b19",
-       "http://www.w3.org/ns/odrl/leftOperand":[
+       "http://www.w3.org/ns/odrl/2/leftOperand":[
           {
              "@id":"https://www.upcast-project.eu/upcast-vocab/1.0/operationCarbonEmission"
           }
        ],
-       "http://www.w3.org/ns/odrl/operator":[
+       "http://www.w3.org/ns/odrl/2/operator":[
           {
-             "@id":"http://www.w3.org/ns/odrl/lteq"
+             "@id":"http://www.w3.org/ns/odrl/2/lteq"
           }
        ],
-       "http://www.w3.org/ns/odrl/rightOperand":[
+       "http://www.w3.org/ns/odrl/2/rightOperand":[
           {
              "@value":"200",
              "@type":"http://www.w3.org/2001/XMLSchema#float"
           }
        ],
-       "http://www.w3.org/ns/odrl/unit":[
+       "http://www.w3.org/ns/odrl/2/unit":[
           {
              "@id":"http://qudt.org/vocab/unit#Kilogram"
           }
@@ -222,27 +222,27 @@
     },
     {
        "@id":"_:b2",
-       "http://www.w3.org/ns/odrl/assigner":[
+       "http://www.w3.org/ns/odrl/2/assigner":[
           {
              "@id":"https://upcast-project.eu/provider/example-data-provider"
           }
        ],
-       "http://www.w3.org/ns/odrl/assignee":[
+       "http://www.w3.org/ns/odrl/2/assignee":[
           {
              "@id":"https://upcast-project.eu/consumer/example-data-consumer"
           }
        ],
-       "http://www.w3.org/ns/odrl/target":[
+       "http://www.w3.org/ns/odrl/2/target":[
           {
              "@id":"http://upcast-project.eu/dataset/example-dataset-agreed"
           }
        ],
-       "http://www.w3.org/ns/odrl/action":[
+       "http://www.w3.org/ns/odrl/2/action":[
           {
              "@id":"_:b16"
           }
        ],
-       "http://www.w3.org/ns/odrl/duty":[
+       "http://www.w3.org/ns/odrl/2/duty":[
           {
              "@id":"_:b17"
           }
@@ -250,17 +250,17 @@
     },
     {
        "@id":"_:b20",
-       "http://www.w3.org/ns/odrl/leftOperand":[
+       "http://www.w3.org/ns/odrl/2/leftOperand":[
           {
              "@id":"https://www.upcast-project.eu/upcast-vocab/1.0/implementedBy"
           }
        ],
-       "http://www.w3.org/ns/odrl/operator":[
+       "http://www.w3.org/ns/odrl/2/operator":[
           {
-             "@id":"http://www.w3.org/ns/odrl/eq"
+             "@id":"http://www.w3.org/ns/odrl/2/eq"
           }
        ],
-       "http://www.w3.org/ns/odrl/rightOperand":[
+       "http://www.w3.org/ns/odrl/2/rightOperand":[
           {
              "@id":"https://hub.docker.com/r/YourAggregator"
           }
@@ -268,17 +268,17 @@
     },
     {
        "@id":"_:b21",
-       "http://www.w3.org/ns/odrl/leftOperand":[
+       "http://www.w3.org/ns/odrl/2/leftOperand":[
           {
              "@id":"https://www.upcast-project.eu/upcast-vocab/1.0/executionCommand"
           }
        ],
-       "http://www.w3.org/ns/odrl/operator":[
+       "http://www.w3.org/ns/odrl/2/operator":[
           {
-             "@id":"http://www.w3.org/ns/odrl/eq"
+             "@id":"http://www.w3.org/ns/odrl/2/eq"
           }
        ],
-       "http://www.w3.org/ns/odrl/rightOperand":[
+       "http://www.w3.org/ns/odrl/2/rightOperand":[
           {
              "@value":"aggregate -agg sum"
           }
@@ -286,17 +286,17 @@
     },
     {
        "@id":"_:b22",
-       "http://www.w3.org/ns/odrl/leftOperand":[
+       "http://www.w3.org/ns/odrl/2/leftOperand":[
           {
-             "@id":"http://www.w3.org/ns/odrl/count"
+             "@id":"http://www.w3.org/ns/odrl/2/count"
           }
        ],
-       "http://www.w3.org/ns/odrl/operator":[
+       "http://www.w3.org/ns/odrl/2/operator":[
           {
-             "@id":"http://www.w3.org/ns/odrl/lteq"
+             "@id":"http://www.w3.org/ns/odrl/2/lteq"
           }
        ],
-       "http://www.w3.org/ns/odrl/rightOperand":[
+       "http://www.w3.org/ns/odrl/2/rightOperand":[
           {
              "@value":3
           }
@@ -304,17 +304,17 @@
     },
     {
        "@id":"_:b23",
-       "http://www.w3.org/ns/odrl/leftOperand":[
+       "http://www.w3.org/ns/odrl/2/leftOperand":[
           {
-             "@id":"http://www.w3.org/ns/odrl/count"
+             "@id":"http://www.w3.org/ns/odrl/2/count"
           }
        ],
-       "http://www.w3.org/ns/odrl/operator":[
+       "http://www.w3.org/ns/odrl/2/operator":[
           {
-             "@id":"http://www.w3.org/ns/odrl/gteq"
+             "@id":"http://www.w3.org/ns/odrl/2/gteq"
           }
        ],
-       "http://www.w3.org/ns/odrl/rightOperand":[
+       "http://www.w3.org/ns/odrl/2/rightOperand":[
           {
              "@value":1
           }
@@ -324,7 +324,7 @@
        "@id":"_:b24",
        "http://www.w3.org/1999/02/22-rdf-syntax-ns#value":[
           {
-             "@id":"http://www.w3.org/ns/odrl/anonymize"
+             "@id":"http://www.w3.org/ns/odrl/2/anonymize"
           }
        ]
     },
@@ -335,7 +335,7 @@
              "@id":"http://upcast-project.eu/dpws/example-dpw"
           }
        ],
-       "http://www.w3.org/ns/odrl/constraint":[
+       "http://www.w3.org/ns/odrl/2/constraint":[
           {
              "@id":"_:b26"
           },
@@ -346,17 +346,17 @@
     },
     {
        "@id":"_:b26",
-       "http://www.w3.org/ns/odrl/leftOperand":[
+       "http://www.w3.org/ns/odrl/2/leftOperand":[
           {
              "@id":"https://www.upcast-project.eu/upcast-vocab/1.0/operationEnergyConsumption"
           }
        ],
-       "http://www.w3.org/ns/odrl/operator":[
+       "http://www.w3.org/ns/odrl/2/operator":[
           {
-             "@id":"http://www.w3.org/ns/odrl/lteq"
+             "@id":"http://www.w3.org/ns/odrl/2/lteq"
           }
        ],
-       "http://www.w3.org/ns/odrl/rightOperand":[
+       "http://www.w3.org/ns/odrl/2/rightOperand":[
           {
              "@value":"500",
              "@type":"http://www.w3.org/2001/XMLSchema#float"
@@ -365,17 +365,17 @@
     },
     {
        "@id":"_:b27",
-       "http://www.w3.org/ns/odrl/leftOperand":[
+       "http://www.w3.org/ns/odrl/2/leftOperand":[
           {
              "@id":"https://www.upcast-project.eu/upcast-vocab/1.0/operationCarbonEmission"
           }
        ],
-       "http://www.w3.org/ns/odrl/operator":[
+       "http://www.w3.org/ns/odrl/2/operator":[
           {
-             "@id":"http://www.w3.org/ns/odrl/lteq"
+             "@id":"http://www.w3.org/ns/odrl/2/lteq"
           }
        ],
-       "http://www.w3.org/ns/odrl/rightOperand":[
+       "http://www.w3.org/ns/odrl/2/rightOperand":[
           {
              "@value":"300",
              "@type":"http://www.w3.org/2001/XMLSchema#float"
@@ -384,22 +384,22 @@
     },
     {
        "@id":"_:b3",
-       "http://www.w3.org/ns/odrl/assigner":[
+       "http://www.w3.org/ns/odrl/2/assigner":[
           {
              "@id":"https://upcast-project.eu/provider/example-data-provider"
           }
        ],
-       "http://www.w3.org/ns/odrl/assignee":[
+       "http://www.w3.org/ns/odrl/2/assignee":[
           {
              "@id":"https://upcast-project.eu/consumer/example-data-consumer"
           }
        ],
-       "http://www.w3.org/ns/odrl/target":[
+       "http://www.w3.org/ns/odrl/2/target":[
           {
              "@id":"http://upcast-project.eu/dataset/example-dataset-agreed"
           }
        ],
-       "http://www.w3.org/ns/odrl/action":[
+       "http://www.w3.org/ns/odrl/2/action":[
           {
              "@id":"_:b25"
           }
@@ -412,7 +412,7 @@
              "@id":"https://www.upcast-project.eu/upcast-vocab/1.0/Integrate"
           }
        ],
-       "http://www.w3.org/ns/odrl/constraint":[
+       "http://www.w3.org/ns/odrl/2/constraint":[
           {
              "@id":"_:b5"
           },
@@ -423,7 +423,7 @@
              "@id":"_:b7"
           }
        ],
-       "http://www.w3.org/ns/odrl/refinement":[
+       "http://www.w3.org/ns/odrl/2/refinement":[
           {
              "@id":"_:b8"
           },
@@ -434,17 +434,17 @@
     },
     {
        "@id":"_:b5",
-       "http://www.w3.org/ns/odrl/leftOperand":[
+       "http://www.w3.org/ns/odrl/2/leftOperand":[
           {
-             "@id":"http://www.w3.org/ns/odrl/dateTime"
+             "@id":"http://www.w3.org/ns/odrl/2/dateTime"
           }
        ],
-       "http://www.w3.org/ns/odrl/operator":[
+       "http://www.w3.org/ns/odrl/2/operator":[
           {
-             "@id":"http://www.w3.org/ns/odrl/lt"
+             "@id":"http://www.w3.org/ns/odrl/2/lt"
           }
        ],
-       "http://www.w3.org/ns/odrl/rightOperand":[
+       "http://www.w3.org/ns/odrl/2/rightOperand":[
           {
              "@value":"2025-05-15",
              "@type":"http://www.w3.org/2001/XMLSchema#dateTime"
@@ -453,17 +453,17 @@
     },
     {
        "@id":"_:b6",
-       "http://www.w3.org/ns/odrl/leftOperand":[
+       "http://www.w3.org/ns/odrl/2/leftOperand":[
           {
-             "@id":"http://www.w3.org/ns/odrl/dateTime"
+             "@id":"http://www.w3.org/ns/odrl/2/dateTime"
           }
        ],
-       "http://www.w3.org/ns/odrl/operator":[
+       "http://www.w3.org/ns/odrl/2/operator":[
           {
-             "@id":"http://www.w3.org/ns/odrl/gt"
+             "@id":"http://www.w3.org/ns/odrl/2/gt"
           }
        ],
-       "http://www.w3.org/ns/odrl/rightOperand":[
+       "http://www.w3.org/ns/odrl/2/rightOperand":[
           {
              "@value":"2025-05-01",
              "@type":"http://www.w3.org/2001/XMLSchema#dateTime"
@@ -472,23 +472,23 @@
     },
     {
        "@id":"_:b7",
-       "http://www.w3.org/ns/odrl/leftOperand":[
+       "http://www.w3.org/ns/odrl/2/leftOperand":[
           {
              "@id":"https://www.upcast-project.eu/upcast-vocab/1.0/operationEnergyConsumption"
           }
        ],
-       "http://www.w3.org/ns/odrl/operator":[
+       "http://www.w3.org/ns/odrl/2/operator":[
           {
-             "@id":"http://www.w3.org/ns/odrl/lteq"
+             "@id":"http://www.w3.org/ns/odrl/2/lteq"
           }
        ],
-       "http://www.w3.org/ns/odrl/rightOperand":[
+       "http://www.w3.org/ns/odrl/2/rightOperand":[
           {
              "@value":"100",
              "@type":"http://www.w3.org/2001/XMLSchema#float"
           }
        ],
-       "http://www.w3.org/ns/odrl/unit":[
+       "http://www.w3.org/ns/odrl/2/unit":[
           {
              "@id":"http://qudt.org/vocab/unit#KilowattHour"
           }
@@ -496,17 +496,17 @@
     },
     {
        "@id":"_:b8",
-       "http://www.w3.org/ns/odrl/leftOperand":[
+       "http://www.w3.org/ns/odrl/2/leftOperand":[
           {
              "@id":"https://www.upcast-project.eu/upcast-vocab/1.0/implementedBy"
           }
        ],
-       "http://www.w3.org/ns/odrl/operator":[
+       "http://www.w3.org/ns/odrl/2/operator":[
           {
-             "@id":"http://www.w3.org/ns/odrl/eq"
+             "@id":"http://www.w3.org/ns/odrl/2/eq"
           }
        ],
-       "http://www.w3.org/ns/odrl/rightOperand":[
+       "http://www.w3.org/ns/odrl/2/rightOperand":[
           {
              "@id":"https://hub.docker.com/r/UPCASTIntegrate"
           }
@@ -514,17 +514,17 @@
     },
     {
        "@id":"_:b9",
-       "http://www.w3.org/ns/odrl/leftOperand":[
+       "http://www.w3.org/ns/odrl/2/leftOperand":[
           {
              "@id":"https://www.upcast-project.eu/upcast-vocab/1.0/executionCommand"
           }
        ],
-       "http://www.w3.org/ns/odrl/operator":[
+       "http://www.w3.org/ns/odrl/2/operator":[
           {
-             "@id":"http://www.w3.org/ns/odrl/eq"
+             "@id":"http://www.w3.org/ns/odrl/2/eq"
           }
        ],
-       "http://www.w3.org/ns/odrl/rightOperand":[
+       "http://www.w3.org/ns/odrl/2/rightOperand":[
           {
              "@value":"upintegrate $target $x"
           }
@@ -585,7 +585,7 @@
              "@id":"http://upcast-project.eu/dataset/example-dataset-1"
           }
        ],
-       "http://www.w3.org/ns/odrl/hasPolicy":[
+       "http://www.w3.org/ns/odrl/2/hasPolicy":[
           {
              "@id":"http://upcast-project.eu/policy/usage-constraint-example"
           }
@@ -626,7 +626,7 @@
        "@id":"http://upcast-project.eu/dpws/example-dpw",
        "@type":[
           "https://www.upcast-project.eu/upcast-vocab/1.0/DataProcessingWorkflow",
-          "http://www.w3.org/ns/odrl/Action"
+          "http://www.w3.org/ns/odrl/2/Action"
        ],
        "http://www.ict-abovo.eu/ontologies/WorkflowModel#wfPurposes":[
           {
@@ -679,9 +679,9 @@
     {
        "@id":"http://upcast-project.eu/policy/agreement/example-agreement-of-this-negotiation",
        "@type":[
-          "http://www.w3.org/ns/odrl/Agreement"
+          "http://www.w3.org/ns/odrl/2/Agreement"
        ],
-       "http://www.w3.org/ns/odrl/permission":[
+       "http://www.w3.org/ns/odrl/2/permission":[
           {
              "@id":"_:b0"
           },
@@ -706,37 +706,37 @@
        "@id":"http://www.w3.org/ns/dcat#Distribution"
     },
     {
-       "@id":"http://www.w3.org/ns/odrl/Action"
+       "@id":"http://www.w3.org/ns/odrl/2/Action"
     },
     {
-       "@id":"http://www.w3.org/ns/odrl/Agreement"
+       "@id":"http://www.w3.org/ns/odrl/2/Agreement"
     },
     {
-       "@id":"http://www.w3.org/ns/odrl/aggregate"
+       "@id":"http://www.w3.org/ns/odrl/2/aggregate"
     },
     {
-       "@id":"http://www.w3.org/ns/odrl/anonymize"
+       "@id":"http://www.w3.org/ns/odrl/2/anonymize"
     },
     {
-       "@id":"http://www.w3.org/ns/odrl/count"
+       "@id":"http://www.w3.org/ns/odrl/2/count"
     },
     {
-       "@id":"http://www.w3.org/ns/odrl/dateTime"
+       "@id":"http://www.w3.org/ns/odrl/2/dateTime"
     },
     {
-       "@id":"http://www.w3.org/ns/odrl/eq"
+       "@id":"http://www.w3.org/ns/odrl/2/eq"
     },
     {
-       "@id":"http://www.w3.org/ns/odrl/gt"
+       "@id":"http://www.w3.org/ns/odrl/2/gt"
     },
     {
-       "@id":"http://www.w3.org/ns/odrl/gteq"
+       "@id":"http://www.w3.org/ns/odrl/2/gteq"
     },
     {
-       "@id":"http://www.w3.org/ns/odrl/lt"
+       "@id":"http://www.w3.org/ns/odrl/2/lt"
     },
     {
-       "@id":"http://www.w3.org/ns/odrl/lteq"
+       "@id":"http://www.w3.org/ns/odrl/2/lteq"
     },
     {
        "@id":"http://xmlns.com/foaf/0.1/Agent"
