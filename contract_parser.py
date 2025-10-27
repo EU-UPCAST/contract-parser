@@ -85,7 +85,7 @@ class ContractParser:
         """
         if self.contract_graph is None:
             raise Exception("No contract loaded into this parser")
-        contract_id = self.contract_graph.value(predicate=RDF.type, object=ContractParser.IDSA.Contract)
+        contract_id = self.contract_graph.value(predicate=RDF.type, object=ContractParser.UPCAST.Contract)
         return contract_id
 
     def get_provider(self):
