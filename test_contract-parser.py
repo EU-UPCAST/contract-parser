@@ -33,26 +33,26 @@ class TestContractParser(unittest.TestCase):
     def test_get_permitted_actions(self):
         permitted_actions = self.parser.get_permitted_actions()
         #permitted_actions_values = {action[1] for action in permitted_actions}
-        self.assertEqual(permitted_actions, {"http://www.w3.org/ns/odrl/anonymize", "http://www.w3.org/ns/odrl/aggregate", "https://www.upcast-project.eu/upcast-vocab/1.0/Integrate","http://upcast-project.eu/dpws/example-dpw"})   
+        self.assertEqual(permitted_actions, {"http://www.w3.org/ns/odrl/2/anonymize", "http://www.w3.org/ns/odrl/2/aggregate", "https://www.upcast-project.eu/upcast-vocab/1.0/Integrate","http://upcast-project.eu/dpws/example-dpw"})
 
     def test_get_prohibited_actions(self):
         prohibited_actions = self.parser.get_prohibited_actions()
         #prohibited_actions_values = {action[1] for action in prohibited_actions}
-        self.assertEqual(prohibited_actions, {"http://www.w3.org/ns/odrl/delete"})   
+        self.assertEqual(prohibited_actions, {"http://www.w3.org/ns/odrl/2/delete"})
 
 
     def test_get_action_container(self):
-        action_container = self.parser.get_action_container(actionValue="http://www.w3.org/ns/odrl/anonymize")
+        action_container = self.parser.get_action_container(actionValue="http://www.w3.org/ns/odrl/2/anonymize")
         self.assertEqual(action_container, "https://hub.docker.com/r/MyAnonymizer")     
 
     def test_get_action_execution_limits_single(self):
-        action_execution_limit = self.parser.get_action_execution_limits(actionValue="http://www.w3.org/ns/odrl/anonymize")
+        action_execution_limit = self.parser.get_action_execution_limits(actionValue="http://www.w3.org/ns/odrl/2/anonymize")
         self.assertEqual(len(action_execution_limit),1)
         self.assertIn(("gteq",1), action_execution_limit)
 
         
     def test_get_action_execution_limits_double(self):
-        action_execution_limit = self.parser.get_action_execution_limits(actionValue="http://www.w3.org/ns/odrl/aggregate")
+        action_execution_limit = self.parser.get_action_execution_limits(actionValue="http://www.w3.org/ns/odrl/2/aggregate")
         self.assertEqual(len(action_execution_limit),2)
         self.assertIn(("lteq",3), action_execution_limit)
         self.assertIn(("gteq",1), action_execution_limit)    
@@ -63,11 +63,11 @@ class TestContractParser(unittest.TestCase):
         self.assertEqual(len(action_execution_limit),0)
 
     def test_get_action_datetime_constraint_inexistent(self):
-        action_datetime_constraints = self.parser.get_action_datetime_constraints(actionValue="http://www.w3.org/ns/odrl/anonymize")
+        action_datetime_constraints = self.parser.get_action_datetime_constraints(actionValue="http://www.w3.org/ns/odrl/2/anonymize")
         self.assertEqual(len(action_datetime_constraints),0)
     
     def test_get_action_datetime_constraint_single(self):
-        action_datetime_constraints = self.parser.get_action_datetime_constraints(actionValue="http://www.w3.org/ns/odrl/aggregate")
+        action_datetime_constraints = self.parser.get_action_datetime_constraints(actionValue="http://www.w3.org/ns/odrl/2/aggregate")
         self.assertEqual(len(action_datetime_constraints),1)
         self.assertIn(("permission","lt",datetime.datetime(2025,5,30)), action_datetime_constraints)
             
@@ -85,26 +85,26 @@ class TestContractParser(unittest.TestCase):
 
 
     def test_get_action_carbon_emission_limit(self):
-        action_carbon_limit = self.parser.get_action_carbon_emission_limit(actionValue="http://www.w3.org/ns/odrl/aggregate")
+        action_carbon_limit = self.parser.get_action_carbon_emission_limit(actionValue="http://www.w3.org/ns/odrl/2/aggregate")
         self.assertEqual(action_carbon_limit[0],200)
         self.assertEqual(action_carbon_limit[1], "http://qudt.org/vocab/unit#Kilogram")
 
 
     def test_get_action_carbon_emission_limit_inexistent(self):
-        action_carbon_limit = self.parser.get_action_carbon_emission_limit(actionValue="http://www.w3.org/ns/odrl/anonymize")
+        action_carbon_limit = self.parser.get_action_carbon_emission_limit(actionValue="http://www.w3.org/ns/odrl/2/anonymize")
         self.assertIsNone(action_carbon_limit)
 
         
     def test_get_action_energy_consumption_limit_inexistent(self):
-        action_energy_limit = self.parser.get_action_energy_consumption_limit(actionValue="http://www.w3.org/ns/odrl/anonymize")
+        action_energy_limit = self.parser.get_action_energy_consumption_limit(actionValue="http://www.w3.org/ns/odrl/2/anonymize")
         self.assertIsNone(action_energy_limit)
         
     
     def test_get_action_dependencies(self):
-        #action_dependencies = self.parser.get_action_dependencies(actionValue="http://www.w3.org/ns/odrl/anonymize")
+        #action_dependencies = self.parser.get_action_dependencies(actionValue="http://www.w3.org/ns/odrl/2/anonymize")
         #self.assertEqual(["https://www.upcast-project.eu/upcast-vocab/1.0/Integrate"],action_dependencies)
-        action_dependencies = self.parser.get_action_dependencies(actionValue="http://www.w3.org/ns/odrl/aggregate")
-        self.assertEqual(["http://www.w3.org/ns/odrl/anonymize"],action_dependencies)
+        action_dependencies = self.parser.get_action_dependencies(actionValue="http://www.w3.org/ns/odrl/2/aggregate")
+        self.assertEqual(["http://www.w3.org/ns/odrl/2/anonymize"],action_dependencies)
 
     def test_get_action_no_dependencies(self):
         action_dependencies = self.parser.get_action_dependencies(actionValue="https://www.upcast-project.eu/upcast-vocab/1.0/Integrate")

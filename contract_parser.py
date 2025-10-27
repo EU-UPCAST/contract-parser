@@ -1,5 +1,6 @@
 from rdflib import Graph, Namespace, URIRef
 from rdflib.namespace import RDF
+from rdflib.plugin import Parser
 import datetime
 import logging
 import sys
@@ -19,10 +20,54 @@ class ContractParser:
 
     def load(self, file_path):
         """
-        Load the contract data from the specified file path.
-        Returns an RDF graph object.
+        Loads the contract data from the specified file path.
+        Tries multiple RDF serializations and encodings until one succeeds, or
+        all are exhausted.
         """
-        self.contract_graph = Graph().parse(file_path)
+        self.contract_graph = Graph()
+
+        rdf_formats = [
+            "xml",  # RDF/XML
+            "turtle",  # Turtle / TTL
+            "nt",  # N-Triples
+            "n3",  # Notation3
+            "json-ld",  # JSON-LD
+            "trig",  # TriG
+            "trix",  # TriX
+        ]
+
+        # Try parsing with each format
+        last_exception = None
+        for rdf_format in rdf_formats:
+            try:
+                self.contract_graph.parse(file_path, format=rdf_format)
+                break
+            except Exception as e:
+                last_exception = e
+                self.contract_graph = Graph()  # reset in case of partial parse
+        else:
+            # If no parser worked, try again by reading file contents with encodings
+            encodings = ["utf-8", "utf-16", "latin-1"]
+            for enc in encodings:
+                try:
+                    with open(file_path, "r", encoding=enc) as f:
+                        data = f.read()
+                    for rdf_format in available_formats:
+                        try:
+                            self.contract_graph.parse(data=data, format=rdf_format)
+                            break
+                        except Exception:
+                            continue
+                    else:
+                        continue
+                    break
+                except Exception as e:
+                    last_exception = e
+
+        if len(self.contract_graph) == 0 and last_exception:
+            raise ValueError(
+                f"Failed to parse RDF file {file_path}. Last error: {last_exception}"
+            )
         self.contract_graph.bind("idsa-core", ContractParser.IDSA)
         self.contract_graph.bind("upcast", ContractParser.UPCAST)
 
@@ -39,7 +84,7 @@ class ContractParser:
         Returns a rdflib Graph node
         """
         if self.contract_graph is None:
-            raise Exception("No contract loaded into this parser") 
+            raise Exception("No contract loaded into this parser")
         contract_id = self.contract_graph.value(predicate=RDF.type, object=ContractParser.IDSA.Contract)
         return contract_id
 
@@ -48,60 +93,60 @@ class ContractParser:
         Convenience method to get the provider of the contract
         """
         if self.contract_graph is None:
-            raise Exception("No contract loaded into this parser") 
+            raise Exception("No contract loaded into this parser")
         provider = self.contract_graph.value(predicate=ContractParser.IDSA.Provider, subject=self.get_contract_uri())
         return provider
-    
+
     def get_consumer(self):
         """
         Convenience method to get the provider of the contract
         """
         if self.contract_graph is None:
-            raise Exception("No contract loaded into this parser") 
+            raise Exception("No contract loaded into this parser")
         consumer = self.contract_graph.value(predicate=ContractParser.IDSA.Consumer, subject=self.get_contract_uri())
         return consumer
-    
+
     def get_permitted_actions(self):
         """
         Convenience method to get the permitted actions of the contract
         """
-        
+
         if self.contract_graph is None:
             raise Exception("No contract loaded into this parser")
-        
+
         # Permitted actions and their IRIs
         query = """
-        PREFIX odrl: <http://www.w3.org/ns/odrl/>
+        PREFIX odrl: <http://www.w3.org/ns/odrl/2/>
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
         SELECT ?actionValue
         WHERE {
-        ?agreement a odrl:Agreement ;
+        ?agreement a ?type ;
              odrl:permission ?permission .
+        VALUES ?type { odrl:Agreement odrl:Policy odrl:Set odrl:Offer }
          {?permission odrl:action ?actionValue .}
         UNION
         {?permission odrl:action ?actionIRI .
          ?actionIRI rdf:value ?actionValue .}
-        
+
         }
         """
         query_results = self.contract_graph.query(query)
-        permitted_actions = {str(row.actionValue) for row in query_results if isinstance(row.actionValue,URIRef)}
-
+        permitted_actions = {str(row.actionValue) for row in query_results if isinstance(row.actionValue, URIRef)}
 
         return permitted_actions
-    
-    def get_prohibited_actions(self):   
+
+    def get_prohibited_actions(self):
         """
         Convenience method to get the prohibited actions of the contract
         """
-        
+
         if self.contract_graph is None:
             raise Exception("No contract loaded into this parser")
-        
+
         # Permitted actions and their IRIs
         query = """
-        PREFIX odrl: <http://www.w3.org/ns/odrl/>
+        PREFIX odrl: <http://www.w3.org/ns/odrl/2/>
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
         SELECT ?actionValue
@@ -113,21 +158,21 @@ class ContractParser:
          ?actionIRI rdf:value ?actionValue .}
         }
         """
-        query_results = self.contract_graph.query(query)  
-        prohibited_actions = {str(row.actionValue) for row in query_results if isinstance(row.actionValue,URIRef)}        
-        return prohibited_actions    
-    
-    def get_action_container(self,actionValue):
+        query_results = self.contract_graph.query(query)
+        prohibited_actions = {str(row.actionValue) for row in query_results if isinstance(row.actionValue, URIRef)}
+        return prohibited_actions
+
+    def get_action_container(self, actionValue):
         """
         Input: action Value, i.e. , its name in String format
-        Output: URL of the container that implements the input action IRI, None if not specified in the contract  
+        Output: URL of the container that implements the input action IRI, None if not specified in the contract
         """
-        
+
         if self.contract_graph is None:
             raise Exception("No contract loaded into this parser")
-        
+
         query = """
-        PREFIX odrl: <http://www.w3.org/ns/odrl/>
+        PREFIX odrl: <http://www.w3.org/ns/odrl/2/>
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         PREFIX upcast: <https://www.upcast-project.eu/upcast-vocab/1.0/> 
 
@@ -140,22 +185,22 @@ class ContractParser:
                     odrl:rightOperand ?rightOperand .
         }
         """
-        qres = self.contract_graph.query(query,initBindings={'actionValue': URIRef(actionValue)})
+        qres = self.contract_graph.query(query, initBindings={'actionValue': URIRef(actionValue)})
         qres_list = list(qres)
 
         return str(qres_list[0]["rightOperand"]) if len(qres) > 0 else None
 
-    def get_action_execution_command(self,actionValue):
+    def get_action_execution_command(self, actionValue):
         """
         Input: action Value, i.e. , its name in String format
-        Output: URL of the container that implements the input action IRI, None if not specified in the contract  
+        Output: URL of the container that implements the input action IRI, None if not specified in the contract
         """
-        
+
         if self.contract_graph is None:
             raise Exception("No contract loaded into this parser")
-        
+
         query = """
-        PREFIX odrl: <http://www.w3.org/ns/odrl/>
+        PREFIX odrl: <http://www.w3.org/ns/odrl/2/>
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         PREFIX upcast: <https://www.upcast-project.eu/upcast-vocab/1.0/> 
 
@@ -168,12 +213,12 @@ class ContractParser:
                     odrl:rightOperand ?rightOperand .
         }
         """
-        qres = self.contract_graph.query(query,initBindings={'actionValue': URIRef(actionValue)})
+        qres = self.contract_graph.query(query, initBindings={'actionValue': URIRef(actionValue)})
         qres_list = list(qres)
 
         return str(qres_list[0]["rightOperand"]) if len(qres) > 0 else None
-    
-    def get_action_execution_limits(self,actionValue):
+
+    def get_action_execution_limits(self, actionValue):
         """
         input: actionValue, that is the name of the action in string format
         output: list of tuple of the form (operator, rightOperand) where operator is the comparison odrl operator (eq,lteq,gteq,gt) and rightOperand the integer value.
@@ -181,9 +226,9 @@ class ContractParser:
         """
         if self.contract_graph is None:
             raise Exception("No contract loaded into this parser")
-        
+
         query = """
-        PREFIX odrl: <http://www.w3.org/ns/odrl/>
+        PREFIX odrl: <http://www.w3.org/ns/odrl/2/>
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         PREFIX upcast: <https://www.upcast-project.eu/upcast-vocab/1.0/> 
 
@@ -196,23 +241,23 @@ class ContractParser:
                     odrl:rightOperand ?rightOperand .
         }
         """
-        qres = self.contract_graph.query(query,initBindings={'actionValue': URIRef(actionValue)})
+        qres = self.contract_graph.query(query, initBindings={'actionValue': URIRef(actionValue)})
         limits = []
         for row in qres:
             operator = str(row["operator"]).split("/")[-1]
             value = int(row["rightOperand"])
-            limits.append((operator,value)) 
+            limits.append((operator, value))
 
-        return limits 
-    
-    def get_action_carbon_emission_limit(self,actionValue):
+        return limits
+
+    def get_action_carbon_emission_limit(self, actionValue):
         """
         input: actionValue, that is the name of the action in string format
         output: Float value of maximum carbon emission agreed for this operation (that is, operator less ro equal than is assumed)
           returns None if there is no carbon emission limit defined in the contract
         """
         query = """
-        PREFIX odrl: <http://www.w3.org/ns/odrl/>
+        PREFIX odrl: <http://www.w3.org/ns/odrl/2/>
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         PREFIX upcast: <https://www.upcast-project.eu/upcast-vocab/1.0/> 
 
@@ -226,20 +271,20 @@ class ContractParser:
                     odrl:unit ?unit  .
         }
         """
-        qres = list(self.contract_graph.query(query,initBindings={'actionValue': URIRef(actionValue)}))
+        qres = list(self.contract_graph.query(query, initBindings={'actionValue': URIRef(actionValue)}))
         if len(qres) == 0:
             return None
         result = qres[0]
-        return (result["rightOperand"].toPython(),result["unit"].toPython())
-    
-    def get_action_energy_consumption_limit(self,actionValue):
+        return (result["rightOperand"].toPython(), result["unit"].toPython())
+
+    def get_action_energy_consumption_limit(self, actionValue):
         """
         input: actionValue, that is the name of the action in string format
         output: tuple (value,unit), with value a float of maximum energy consumption agreed for this operation (that is, operator less ro equal than is assumed)
              unit a string with the unit of the value
         """
         query = """
-        PREFIX odrl: <http://www.w3.org/ns/odrl/>
+        PREFIX odrl: <http://www.w3.org/ns/odrl/2/>
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         PREFIX upcast: <https://www.upcast-project.eu/upcast-vocab/1.0/> 
 
@@ -253,27 +298,28 @@ class ContractParser:
                     odrl:unit ?unit  .
         }
         """
-        qres = self.contract_graph.query(query,initBindings={'actionValue': URIRef(actionValue)})
-        qres = list(self.contract_graph.query(query,initBindings={'actionValue': URIRef(actionValue)}))
+        qres = self.contract_graph.query(query, initBindings={'actionValue': URIRef(actionValue)})
+        qres = list(self.contract_graph.query(query, initBindings={'actionValue': URIRef(actionValue)}))
         if len(qres) == 0:
             return None
         result = qres[0]
-        return (result["rightOperand"].toPython(),result["unit"].toPython())
-    
-    def get_action_datetime_constraints(self,actionValue):
+        return (result["rightOperand"].toPython(), result["unit"].toPython())
+
+    def get_action_datetime_constraints(self, actionValue):
         """
         input: actionValue, that is the name of the action in string format
         output: list of tuple of the form (rule,operator, datetime) where rule is one of {Permission,Prohibition,Duty}, operator is the comparison odrl operator (eq,lt,lteq,gteq,gt) and datetime is the constrained datetime.
                 An empty list is returned if the action does not have any datetime constraint.
         """
         query = """
-        PREFIX odrl: <http://www.w3.org/ns/odrl/>
+        PREFIX odrl: <http://www.w3.org/ns/odrl/2/>
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         PREFIX upcast: <https://www.upcast-project.eu/upcast-vocab/1.0/> 
 
         SELECT ?rule ?operator ?rightOperand
         WHERE {
-        ?policy a odrl:Agreement .
+        ?policy a ?type .
+        VALUES ?type { odrl:Agreement odrl:Policy odrl:Set odrl:Offer }
         ?policy ?rule ?rulesetBnode .
         ?rulesetBnode odrl:action ?actionIRI .
         ?actionIRI rdf:value ?actionValue .
@@ -283,34 +329,34 @@ class ContractParser:
                     odrl:rightOperand ?rightOperand .
         }
         """
-        qres = self.contract_graph.query(query,initBindings={'actionValue': URIRef(actionValue)})
+        qres = self.contract_graph.query(query, initBindings={'actionValue': URIRef(actionValue)})
         limits = []
         for row in qres:
-            #print(row)
             rule = str(row["rule"]).split("/")[-1]
             operator = str(row["operator"]).split("/")[-1]
             value = row["rightOperand"].toPython()
-            limits.append((rule,operator,value)) 
+            limits.append((rule, operator, value))
         return limits
 
-    def get_action_dependencies(self,actionValue):
+    def get_action_dependencies(self, actionValue):
         """
         input: actionValue, that is the name of the action in string format
         output: list of actions that must be executed before the input action according to the loaded contract
         """
         if self.contract_graph is None:
             raise Exception("No contract loaded into this parser")
-       
+
         # Note the permission and not the action is the one that has a duty
         query = """
-        PREFIX odrl: <http://www.w3.org/ns/odrl/>
+        PREFIX odrl: <http://www.w3.org/ns/odrl/2/>
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         PREFIX upcast: <https://www.upcast-project.eu/upcast-vocab/1.0/> 
 
         SELECT ?dependencyValue
         WHERE {
-        ?agreement a odrl:Agreement ;
+        ?agreement a ?type ;
              odrl:permission ?permission .
+        VALUES ?type { odrl:Agreement odrl:Policy odrl:Set odrl:Offer }
         ?permission odrl:action ?actionIRI .
         ?actionIRI rdf:value ?actionValue .
         ?permission odrl:duty ?dutyIRI .
@@ -319,10 +365,7 @@ class ContractParser:
         }
         """
 
-        qres = self.contract_graph.query(query,initBindings={'actionValue': URIRef(actionValue)})
+        qres = self.contract_graph.query(query, initBindings={'actionValue': URIRef(actionValue)})
         dependencies = [str(row["dependencyValue"]) for row in qres]
-        return dependencies  
-
-        
-
+        return dependencies
 
