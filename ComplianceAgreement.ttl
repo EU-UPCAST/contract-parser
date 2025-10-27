@@ -104,7 +104,8 @@
                     odrl:leftOperand upcast:executionCommand ;
                     odrl:operator odrl:eq ;
                     odrl:rightOperand "anonymize -level 3" ; 
-                   ] , [ #Must execute at least once
+                   ]; 
+                   odrl:constraint [ #Must execute at least once
                     odrl:leftOperand odrl:count ;
                     odrl:operator odrl:gteq ;
                     odrl:rightOperand 1 ; 
@@ -126,17 +127,7 @@
                         odrl:operator odrl:lteq ;
                         odrl:rightOperand "200"^^xsd:float ;
                         odrl:unit <http://qudt.org/vocab/unit#Kilogram> ;
-                        ];
-                        odrl:refinement [ # implemented by this container
-                        odrl:leftOperand upcast:implementedBy ;
-                        odrl:operator odrl:eq ;
-                        odrl:rightOperand <https://hub.docker.com/r/YourAggregator> ;                    
-                        ], [ #run with this command
-                        odrl:leftOperand upcast:executionCommand ;
-                        odrl:operator odrl:eq ;
-                        odrl:rightOperand "aggregate -agg sum" ; 
-                        ]
-                        , [ #Can execute at most 3 times
+                        ]   , [ #Can execute at most 3 times
                         odrl:leftOperand odrl:count ;
                         odrl:operator odrl:lteq ;
                         odrl:rightOperand 3 ; 
@@ -145,7 +136,17 @@
                         odrl:leftOperand odrl:count ;
                         odrl:operator odrl:gteq ;
                         odrl:rightOperand 1 ; 
+                        ];
+                    odrl:refinement [ # implemented by this container
+                        odrl:leftOperand upcast:implementedBy ;
+                        odrl:operator odrl:eq ;
+                        odrl:rightOperand <https://hub.docker.com/r/YourAggregator> ;                    
+                        ], [ #run with this command
+                        odrl:leftOperand upcast:executionCommand ;
+                        odrl:operator odrl:eq ;
+                        odrl:rightOperand "aggregate -agg sum" ; 
                         ]
+                     
                         ]  ;
                         # This states that anonymization comes before aggregation.
                 odrl:duty [

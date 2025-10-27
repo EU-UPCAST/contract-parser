@@ -235,8 +235,8 @@ class ContractParser:
         SELECT ?operator ?rightOperand
         WHERE {
         ?actionIRI rdf:value ?actionValue .
-        ?actionIRI odrl:refinement ?refinement .
-        ?refinement odrl:leftOperand odrl:count ;
+        ?actionIRI odrl:constraint ?constraint .
+        ?constraint odrl:leftOperand odrl:count ;
                     odrl:operator ?operator;
                     odrl:rightOperand ?rightOperand .
         }
