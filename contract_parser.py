@@ -52,7 +52,7 @@ class ContractParser:
                 try:
                     with open(file_path, "r", encoding=enc) as f:
                         data = f.read()
-                    for rdf_format in available_formats:
+                    for rdf_format in rdf_formats:
                         try:
                             self.contract_graph.parse(data=data, format=rdf_format)
                             break
