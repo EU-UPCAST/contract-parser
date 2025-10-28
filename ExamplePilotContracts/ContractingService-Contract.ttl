@@ -1,0 +1,541 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dpv: <https://w3id.org/dpv/owl#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix idsa-core: <https://w3id.org/idsa/core/> .
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix schema1: <http://schema.org/> .
+@prefix upcast: <https://www.upcast-project.eu/upcast-vocab/1.0/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://upcast-project.eu/contract/68ff5cf9e84cea26f27bc1de> idsa-core:Consumer <https://upcast-project.eu/consumer/consumer-gmbh> ;
+    idsa-core:Provider <https://upcast-project.eu/provider/provider-ltd> ;
+    upcast:hasAgreement <http://upcast-project.eu/agreement/Negotiation-Agreement> ;
+	a idsa-core:Contract ;
+	a upcast:Contract ;
+    upcast:hasNLP """DATA SHARING AGREEMENT
+
+Table of Contents
+Preamble
+1. Scope of Application
+2. Definitions
+3. Purpose of the Agreement
+4. Description of Data
+5. Data Use – Permitted Purposes
+6. General Obligations of the Parties
+7. Policies and Rules
+8. Custom Arrangements
+9. Data Protection
+10. Technical and Organisational Security Measures – Data Sharing Mechanisms
+11. Confidentiality
+12. Liability
+13. Duration and Termination of the Agreement
+14. Contact
+15. Other Provisions
+16. Dispute Resolution
+17. Governing Law and Jurisdiction
+18. Signatures
+19. Appendix
+	A1. Machine Readable
+		1. ODRL Rules
+		2. Data Resource Description
+		3. Data Processing Workflow (DPW)
+	A2. Communication and Persons in Charge
+
+PREAMBLE.
+This Data Sharing Agreement is made and entered into on 2025-09-0915:19:28.555787, by and between the following contracting parties, namely:
+
+(a) the company/organisation with the name “Provider Ltd” and the distinctive title “PROVIDER”, incorporated in England and Wales, and having its registered address at 1 Provider Way, London, UK, with VAT No. GB123456789, as legally represented at the time of signing of this Agreement by the Data Protection Officer, upcast_miao, hereinafter referred to, for the sake of brevity, as “Data Provider” or “Party A”; and
+
+(b) the company/organisation with the name “Consumer GmbH” and the distinctive title “CONSUMER”, incorporated in Germany, and having its registered address at 2 Verbraucherplatz, Berlin, DE, with VAT No. DE999999999, as legally represented at the time of signing of this Agreement by the Head of Data, upcast_david, hereinafter referred to, for the sake of brevity, as “Data Consumer” or “Party B”,
+
+each hereinafter referred to as the “Party” and jointly both of the above the “Parties”, the following have been agreed and mutually accepted:
+
+1. SCOPE OF APPLICATION.
+        1.1. The Parties have entered into this Data Sharing Agreement to provide for the sharing of Data for the Permitted Purpose(s) (as defined below) and to ensure that there are appropriate provisions and arrangements in place to properly safeguard the information shared between the Parties. This Agreement and its Appendices (hereinafter the “Agreement”) set out the obligations of the Parties in relation to the sharing of data, including the obligations of the Parties’ employees or any sub-processors of data.
+        1.2. The Parties seek to implement a data sharing agreement that complies with the requirements of the current data protection legal framework (e.g. the GDPR). Therefore, this Agreement shall also apply to any processing of personal data carried out pursuant to the current data protection legislation, on the basis of the contractual relationship between the Parties.
+        1.3. This Agreement was generated using the UPCAST Negotiation Software (https://dips.soton.ac.uk/negotiation-plugin) under Negotiation ID 68878520a62982a292b58241.
+        1.4. This Agreement includes a human-readable section, which constitutes the legally binding contract between the Parties, and a corresponding Machine-Readable (MR) section, provided in the Appendix A1, to facilitate automated processing and enforcement.
+
+2. DEFINITIONS.
+2.1. For the purposes hereof, the terms “personal data”, “data subject”, “processing”, “data controller”, “data processor”, “third party”, “consent”, “data breach”, “security incident”, “supervisory authority”, as well as the other terms referred to herein shall have the same meaning as defined in the applicable legislation on personal data protection (including, but not limited to, General Regulation (EU) 2016/679 (“GDPR”) etc.).
+2.2. The following terms shall have the meanings set out below:
+	2.2.1. “Data Protection Legislation”: means (a) any law, statute, declaration, decree, directive, legislative enactment, order, ordinance, regulation, rule or other binding restriction (as amended, consolidated or re-enacted from time to time) which relates to the protection of individuals with regards to the processing of Personal Data to which a Party is subject, including but not limited to the GDPR, the UK General Data Protection Regulation (“UK GDPR”), and the Data Protection Act 2018 (“DPA”); and (b) any code of practice or guidance published by a Regulatory Body from time to time.
+	2.2.2. “Pseudonymisation”: means the processing of personal data in such a manner that the personal data can no longer be attributed to a specific data subject without the use of additional information, provided that such additional information is kept separately and is subject to technical and organisational measures to ensure that the personal data are not attributed to an identified or identifiable natural person.
+	2.3. The following terms used in the Agreement, and in the Machine-Readable (MR) section of the Appendix A1 shall have the meanings set out below:
+		2.3.1. “anonymize”: To anonymize all or parts of the Asset.. For example, to remove identifying particulars for statistical or for other comparable purposes, or to use the Asset without stating the author/source. (Please refer to http://www.w3.org/ns/odrl/2/anonymize for more details.)
+		2.3.2. “Communication Management”: Communication Management refers to purposes associated with providing or managing communication activities e.g. to send an email for notifying some information (Please refer to https://w3id.org/dpv/owl#CommunicationManagement for more details.)
+		2.3.3. “economic Indicators”: The definition does not exist in http://example.org/datasets/economicIndicators. Please insert the definition.
+		2.3.4. “Legal Entity”: A human or non-human 'thing' that constitutes as an entity and which is recognised and defined in law (Please refer to https://w3id.org/dpv/dpv-owl#LegalEntity for more details.)
+		2.3.5. “derive”: To create a new derivative Asset from this Asset and to edit or modify the derivative.. A new asset is created and may have significant overlaps with the original Asset. (Note that the notion of whether or not the change is significant enough to qualify as a new asset is subjective). To the derived Asset a next policy may be applied. (Please refer to http://www.w3.org/ns/odrl/2/derive for more details.)
+		2.3.6. “Credit Checking”: Purposes associated with monitoring, performing, or assessing credit worthiness or solvency (Please refer to https://w3id.org/dpv#CreditChecking for more details.)
+		2.3.7. “aggregate”: To use the Asset or parts of it as part of a composite collection. (Please refer to http://www.w3.org/ns/odrl/2/aggregate for more details.)
+		2.3.8. “Maintain Credit Rating Database”: Purposes associated with maintaining a Credit Rating Database (Please refer to https://w3id.org/dpv#MaintainCreditRatingDatabase for more details.)
+		2.3.9. “Authority”: An authority with the power to create or enforce laws, or determine their compliance. (Please refer to https://w3id.org/dpv/dpv-owl#Authority for more details.)
+		2.3.10. “Distribution”: Distribution, public display, and publicly performance.. This term is defined by Creative Commons. (Please refer to http://creativecommons.org/ns#Distribution for more details.)
+		2.3.11. “Counterterrorism”: The definition does not exist in https://w3id.org/dpv#Counterterrorism. Please insert the definition.
+		2.3.12. “Consumer”: Humans that consume goods or services for direct use (Please refer to https://w3id.org/dpv/owl#Consumer for more details.)
+		2.3.13. “Counter Money Laundering”: Purposes associated with detection, prevention, and mitigation of mitigate money laundering (Please refer to https://w3id.org/dpv/owl#CounterMoneyLaundering for more details.)
+		2.3.14. “Charity Organisation”: A nonprofit entity dedicated to providing assistance or raising funds for social, educational, religious, or other philanthropic purposes (Please refer to https://w3id.org/dpv/owl#CharityOrganisation for more details.)
+		2.3.15. “Play”: To create a sequential and transient rendition of an Asset. For example, to play a video or audio track. If the action is to be performed to a wider audience than just the Assignees, then the Recipient constraint is recommended to be used. (Please refer to http://www.w3.org/ns/odrl/2/play for more details.)
+		2.3.16. “Communication for Customer Care”: Customer Care Communication refers to purposes associated with communicating with customers for assisting them, resolving issues, ensuring satisfaction, etc. in relation to services provided (Please refer to https://w3id.org/dpv/owl#CommunicationForCustomerCare for more details.)
+		2.3.17. “Derivative Works”: Distribution of derivative works. This term is defined by Creative Commons. (Please refer to http://creativecommons.org/ns#DerivativeWorks for more details.)
+		2.3.18. “Targeted Advertising”: Purposes associated with creating and providing personalised advertisement where the personalisation is targeted to a specific individual or group of individuals (Please refer to https://w3id.org/dpv/owl#TargetedAdvertising for more details.)
+		2.3.19. “Aggregate”: To use the Asset or parts of it as part of a composite collection. (Please refer to http://www.w3.org/ns/odrl/2/aggregate for more details.)
+		2.3.20. “Sell”: To transfer the ownership of the Asset to a third party with compensation and while deleting the original asset. (Please refer to http://www.w3.org/ns/odrl/2/sell for more details.)
+		2.3.21. “Age Verification”: Purposes associated with verifying or authenticating age or age related information as a form of security (Please refer to https://w3id.org/dpv/owl#AgeVerification for more details.)
+		2.3.22. “Analyse Data”: to study or examine the data in detail (Please refer to https://w3id.org/dpv/owl#Analyse for more details.)
+		2.3.23. “Account Management”: Account Management refers to purposes associated with account management, such as to create, provide, maintain, and manage accounts (Please refer to https://w3id.org/dpv/owl#AccountManagement for more details.)
+		2.3.24. “Party”: An entity or a collection of entities that undertake Roles in a Rule. The Party entity could be a person, group of people, organisation, or agent. An agent is a person or thing that takes an active role or produces a specified effect. To describe more details about the Party, it is recommended to use W3C vCard Ontology [[vcard-rdf]] or FOAF Vocabulary [[foaf]]. (Please refer to http://www.w3.org/ns/odrl/2/Party for more details.)
+
+3. PURPOSE OF THE AGREEMENT.
+The purpose of this Agreement is to define the terms and conditions governing the sharing of data between the Data Provider and the Data Consumer. Specifically, the Data Provider agrees to sell, and the Data Consumer agrees to purchase, the dataset titled “dafa” for a total consideration of 59.99 GBP.
+
+4. DESCRIPTION OF DATA.
+	4.1. The Data to be shared under this Agreement is described as follows:
+
+		The Data to be shared under this Agreement is the "dafa" at a price of £59.99. This is a description of Product ABC. It is accessible at Data. Associated tags include electronics, gadgets, technology. Environmental sustainability metrics for both generation and serving are detailed in Machine-Readable Appendix A1.
+
+	4.2. The Machine-Readable (MR) version of the description of data (including its URI, description, format, size, associated tags, and environmental cost metrics) is presented in the Appendix A1.
+
+5. DATA USE – PERMITTED PURPOSES.
+	5.1. The Shared Data shall be used by the Data Consumer solely for the permitted purpose(s) set out in Clauses 7 and 8.
+	5.2. No other use is permitted without prior written consent of the Data Provider.
+
+6. GENERAL OBLIGATIONS OF THE PARTIES.
+	6.1. Both Parties are obliged to fulfill their obligations hereunder, including the processing of the personal data processed, to comply with the applicable data protection law and to apply the basic principles for the protection of personal data, such as the principles of necessity, relevance, confidentiality, availability and integrity. The processing of personal data will also be carried out in accordance with the decisions of the competent Data Protection Authority, the working party under Article 29 of Directive 95/46/EC and the European Data Protection Board under Article 68 of the GDPR.
+	6.2. The Data Provider shall ensure that the Data shared is accurate, complete, and up-to-date.
+	6.3. The Data Consumer shall not transmit, disclose, tolerate or provide access to the Data to any third party without the prior written consent of the Data Provider, at its sole discretion, unless expressly required to do so under applicable law.
+
+7. POLICIES AND RULES.
+The Parties must comply with the following Rules:
+	7.1. Permission
+		• Party B  is permitted by Party A to exercise the play action, on the climate change data dataset, strictly for the purpose of communication for customer care. Party B shall ensure all play methods comply with applicable data-protection standards and shall retain documentation of the techniques applied.
+		• Party B  is permitted by Party A to perform the derivative works action, on the climate change data dataset, specifically for the purpose of targeted advertising. Party B shall ensure all derivative works methods comply with applicable data-protection standards and shall retain documentation of the techniques applied.
+
+	7.2. Prohibition
+		• Party B  is prohibited by Party A to perform the aggregate action on the climate change data dataset, only for the purpose of communication for customer care. This clause shall apply only under the following constraints: the count is all of TTTT and the percentage has part YYYY. Party B must enforce this prohibition in all agreements with its agents and immediately report any attempted contravention to Party A.
+
+	7.3. Obligation
+		• Party B  is obliged to Party A to perform the sell action on the climate change data dataset, exclusively for the purpose of age verification. This clause shall apply only under the following constraints: the event is all of GGGG and the language is greater than or equal to GGGG. Party B shall follow all relevant standards and ensure proper execution of the sell action.
+		• Party B  is obliged to Party A to carry out the analyse data action on the climate change data dataset, specifically for the purpose of counter money laundering. Party B shall follow all relevant standards and ensure proper execution of the analyse data action.
+		• Party B  is obliged to Party A to exercise the customer analysis action on the climate change data dataset, specifically for the purpose of account management. Party B shall follow all relevant standards and ensure proper execution of the customer analysis action.
+
+	7.4. Duty
+		• Party B,  who the actor enhanced property2 is greater than CCC,  is duty-bound to Party A to apply the customer analysis action with the has finish time is greater than FFFF on the climate change data dataset, strictly for the purpose of benchmarking  refined such that the purpose enhanced property has part TTTT. Party B shall confirm execution of the customer analysis action by providing certification or proof upon request.
+		• Party B  is duty-bound to Party A to invoke the derivative works action on the climate change data dataset, specifically for the purpose of communication management. Party B shall confirm execution of the derivative works action by providing certification or proof upon request.
+
+	7.5. The Machine-Readable (MR) version of policies and rules is presented in the Appendix A1.
+
+
+8. CUSTOM ARRANGEMENTS.
+In addition to the aforementioned (in Clause 7) standard policies, the following custom arrangements are mutually agreed upon by the Parties:
+	8.1. Data Sharing Rules
+		• Party B  in duty bound to   Party A to  perform  the distribution action on the economic indicators dataset, specifically  for the purpose of counterterrorism. Party B shall confirm execution of the distribution action by providing certification or proof upon request.
+	8.2. Data Protection
+		• Party B  in duty bound to   Party A to  perform  the distribution action on the economic indicators dataset, specifically  for the purpose of counterterrorism. Party B shall confirm execution of the distribution action by providing certification or proof upon request.
+
+9. DATA PROTECTION.
+	9.1. The Parties may each process Personal Data under this Agreement. The Parties acknowledge that the factual arrangement between them dictates the classification of each Party in respect of the Data Protection Legislation. Notwithstanding the foregoing, the Parties anticipate that each Party shall act as a Controller in its own right. For the avoidance of doubt, the parties are not joint controllers for the purposes of Article 26 of the GDPR.
+	9.2. Where a Party is acting as a Controller in relation to this Agreement, it shall comply with its obligations under the Data Protection Legislation.
+	9.3. Where the Data Provider collects Personal Data which subsequently sells to the Data Consumer, Data Provider shall:
+		i. Ensure that it is not subject to any prohibition or restriction which would prevent or restrict it from disclosing or transferring the Personal Data to the Data Consumer, as required under this Agreement; or prevent or restrict the Data Consumer from processing the Personal Data as envisaged under this Agreement;
+		ii. Ensure that all fair processing notices have been given (and/or, as applicable, valid consents obtained that have not been withdrawn) and are sufficient in scope and kept up-to-date in order to meet the transparency requirements to enable each Party to process the Personal Data in order to obtain the benefit of its rights, and to fulfil its obligations, under this Agreement in accordance with the Data Protection Legislation. For the avoidance of doubt, the Parties do not warrant to each other that any use of transferred Personal Data outside the scope of this Agreement shall be compliant with the Data Protection Legislation;
+		iii. Ensure that the Personal Data is adequate, relevant and limited to what is necessary in relation to the Permitted Purpose; and accurate and, where necessary, up to date; having taken every reasonable step to ensure that any inaccurate Personal Data (having regard to the Permitted Purpose), has been erased or rectified; and
+		iv. Ensure that the Personal Data is transferred between the Parties by a secure means.
+	9.4. Each Party shall indemnify and keep the other fully indemnified from and against any and all losses, fines, liabilities, damages, costs, claims, amounts paid in settlement and expenses (including legal fees, disbursements, costs of investigation, litigation, settlement, judgment, interest and penalties) that are sustained or suffered or incurred by, awarded against or agreed to be paid by, the other Party as a result of, or arising from, a breach by each Party of its obligations under this Clause 9 (Data Protection) and/or the Data Protection Legislation, including, in particular, pursuant to:
+		i. any monetary penalties or fines levied by any Regulatory Body on the other Party;
+		ii. the costs of any investigative, corrective or compensatory action required by any Regulatory Body, or of defending proposed or actual enforcement taken by any Regulatory Body;
+		iii. any losses suffered or incurred by, awarded against, or agreed to be paid by the other Party, pursuant to a claim, action or challenge made by a third party against the other Party, (including by a data subject); and
+		iv. except to the extent covered by Clause 12, any losses suffered or incurred, awarded against or agreed to be paid by the other Party.
+	9.5. Nothing in this Agreement will exclude, limit or restrict each Party’s liability under the indemnity set out in Clause 12.
+
+10. TECHNICAL AND ORGANISATIONAL SECURITY MEASURES - DATA SHARING MECHANISMS.
+	10.1. Both Parties shall implement and maintain, from the outset and before accessing the Data, appropriate technical and organisational measures, in accordance with current best practice and the state of the art in the relevant sector of activity, taking into account the implementation costs, and the nature, scope, circumstances and purpose of the processing, as well as the different probability of occurrence and the severity of the risk of the rights and freedoms of the persons concerned, in order to protect the Data being processed against accidental or unlawful destruction or accidental loss (including erasure), alteration (including destruction), modification, unauthorised disclosure, use or access and any other unlawful form of processing. Such measures will include, but shall not be limited to the pseudonymisation and encryption of Data, where appropriate; the ability to ensure the ongoing confidentiality, integrity, availability and resilience of processing systems and services on an ongoing basis; the ability to restore the availability and access to the Data in a timely manner in the event of a physical or technical incident, including a Data Breach; a process for regularly testing, assessing and evaluating the effectiveness of the technical and organisational measures in order to ensure the security of the processing of Data.
+	10.2. In assessing the appropriate level of security, both Parties shall take account in particular of the risks that are presented by processing, in particular from a Personal Data Breach (as defined under GDPR).
+	10.3. Both Parties agree to implement and maintain data-sharing mechanisms that: (a) comply with all applicable laws and regulations; (b) ensure the confidentiality and integrity of data during transmission; and (c) guarantee that each Party receives access to the Data as specified in this Agreement.
+	10.4. Data sharing pursuant to this Agreement shall be conducted exclusively through secure communication channels.
+	10.5. All data transfers must be encrypted during transmission and comprehensively logged.
+
+11. CONFIDENTIALITY.
+	11.1. Data Consumer agrees to treat all Data shared under this Agreement as confidential.
+	11.2. Unless otherwise agreed, each Party shall maintain absolute confidentiality with respect to this Agreement, its activities and any information and documentation relating to the other Party (or anyone on its behalf) of which it becomes aware as a result of its cooperation with the other Party.
+	11.3. The confidentiality and non-disclosure obligations set forth herein shall remain indefinitely, also following the termination and/or expiration of this Agreement and the cooperation of the Parties.
+
+12. LIABILITY.
+Each Party shall be fully liable to the other for any act and/or omission by itself and/or any of its employees, agents or assistants and/or any of its subcontractors. The defaulting Party is obliged to compensate its counterparty for any positive and/or consequential damage and/or moral damage that it or a third party (natural or legal person), to which the defaulting party is liable, may suffer from a breach of the obligations arising hereunder by it (i.e. the defaulting party), its employees, agents, assistants and/or any subcontractors.
+
+13. DURATION AND TERMINATION OF THE AGREEMENT.
+	13.1. Either Party may terminate this Agreement for any significant reason by providing the other Party with thirty (30) days’ prior written notice. For the purposes of this Agreement, a "significant reason" shall include, but is not limited to: (a) a change in applicable laws, regulations, or data protection requirements that makes data sharing unlawful or unduly burdensome; (b) reasonable concerns regarding the security, integrity, or misuse of shared data by the Data Consumer; (c) Reputational risk or public concern arising from the data sharing relationship; (d) a corporate transaction (such as a merger, acquisition, or divestiture) that materially affects the basis for this Agreement; and (e) a breakdown in the collaborative relationship that materially impairs the ability of the Parties to perform their obligations in good faith. The terminating Party shall act reasonably and in good faith when invoking a significant reason for termination.
+	13.2. A breach of any term hereof shall be deemed a material breach of this Agreement.
+	13.3. Upon termination of this Agreement for any reason:
+		(a) Cessation of Data Sharing: Data Consumer shall immediately cease all operations related to the data being processed under this Agreement.
+		(b) Return or Destruction of Shared Data: Data Consumer shall, within thirty (30) days of termination and in accordance with the instructions of the Data Provider, return or permanently and securely delete all data received from the Data Provider, unless retention is required to comply with applicable laws, regulations, or contractual obligations.
+		(c) Confirmation of Destruction: Upon request, the Data Consumer shall provide written confirmation that all shared data has been destroyed in accordance with this clause.
+	13.4. It is expressly agreed that the obligations assumed by the Parties under this Agreement shall survive the termination or any other cancellation of this Agreement.
+
+14. CONTACT.
+	14.1. With respect to any matter relating to this Agreement, the Parties shall communicate with each other through the contact persons, addresses, emails and telephone numbers listed in Appendix A2 of this Agreement.
+	14.2. In the event of a change in the contact details, each Party shall inform the other Party in writing and without delay of the change.
+	14.3. Any statement or notice sent between the Parties via email, as addressed, shall become effective upon receipt by the recipient. Any notice or communication sent by email shall be deemed received on the next business day following transmission (to the addresses indicated below), provided that no delivery failure notification is received by the sender.
+	14.4. Notices made by post are deemed to have been delivered within seventy two (72) hours upon being sent, and if delivered by courier- on the date of the actual receipt signed by a representative of the recipient.
+
+15. OTHER PROVISIONS.
+	15.1. If any term of this Agreement is declared invalid or unenforceable for any reason or cause, the validity of this Agreement shall not be affected, and the remaining terms shall remain in effect as if the invalid or unenforceable term had not been included herein.
+	15.2. This Agreement may be amended only by new written agreement between the Parties.
+	15.3. The Parties acknowledge that in the event of any conflict between the provisions of this Agreement and other prior agreements governing the processing of data, the provisions herein shall prevail.
+	15.4. In the event of any inconsistency between the terms of this Agreement and the Appendices, the provisions of this Agreement shall prevail.
+
+16. DISPUTE RESOLUTION.
+The Parties shall endeavour in good faith to resolve amicably any dispute and/or difference arising out of the Agreement and/or the Appendices thereto, which form an undivided and integral part thereof. In the event of failure to resolve any dispute / difference amicably, the courts of the country in which the Data Provider is located shall be exclusively responsible for its resolution.
+
+17. GOVERNING LAW AND JURISDICTION.
+	17.1. This Agreement and any non-contractual obligations arising out of or in connection with it shall be governed by and interpreted in accordance with the laws of the country in which the Data Provider is located.
+	17.2. Each Party irrevocably submits to the exclusive jurisdiction of the courts of the country in which the Data Provider is located over any claim or matter arising under, or in connection with, this Agreement.
+
+18. SIGNATURES.
+IN WITNESS WHEREOF, this Agreement has been entered into on the date stated at the beginning of it and should remain in force for 12 months from the Effective Date, unless earlier terminated in accordance with this Agreement.
+
+SIGNED by
+Duly authorised for and on behalf of “Data Provider”, upcast_miao
+
+
+                                                    Signature
+
+                                                    ........................................
+                                                    Name
+
+                                                    ........................................
+                                                    Date
+
+                                                    ........................................
+
+
+SIGNED by
+Duly authorised for and on behalf of “Data Consumer”, upcast_david
+
+
+                                                    Signature
+
+                                                    ........................................
+                                                    Name
+
+                                                    ........................................
+                                                    Date
+
+                                                    ........................................
+
+19. Appendix
+	A1. Machine Readable
+		1. ODRL Rules
+
+			1. Permission:
+				rule: http://www.w3.org/ns/odrl/2/Permission
+				action:   http://www.w3.org/ns/odrl/2/play
+				actor:   https://w3id.org/dpv/owl#CharityOrganisation
+				target:   http://example.org/datasets/climateChangeData
+				purpose: 'https://w3id.org/dpv/owl#CommunicationForCustomerCare'
+
+				rule: http://www.w3.org/ns/odrl/2/Permission
+				action:   http://creativecommons.org/ns#DerivativeWorks
+				actor:   https://www.cactusweb.gr/vocab/Cactus_Account_Manager
+				target:   http://example.org/datasets/climateChangeData
+				purpose: 'https://w3id.org/dpv/owl#TargetedAdvertising'
+
+			2. Prohibition:
+				rule: http://www.w3.org/ns/odrl/2/Prohibition
+				action:   http://www.w3.org/ns/odrl/2/aggregate
+				actor:   https://w3id.org/dpv/owl#CharityOrganisation
+				target:   http://example.org/datasets/climateChangeData
+				purpose: 'https://w3id.org/dpv/owl#CommunicationForCustomerCare'
+				constraints:
+					- leftOperand: http://www.w3.org/ns/odrl/2/count
+					  operator: http://www.w3.org/ns/odrl/2/isAllOf
+					  rightOperand: TTTT
+
+					- leftOperand: http://www.w3.org/ns/odrl/2/percentage
+					  operator: http://www.w3.org/ns/odrl/2/hasPart
+					  rightOperand: YYYY
+
+
+			3. Obligation:
+				rule: http://www.w3.org/ns/odrl/2/Obligation
+				action:   http://www.w3.org/ns/odrl/2/sell
+				actor:   https://w3id.org/dpv/owl#CharityOrganisation
+				target:   http://example.org/datasets/climateChangeData
+				purpose: 'https://w3id.org/dpv/owl#AgeVerification'
+				constraints:
+					- leftOperand: http://www.w3.org/ns/odrl/2/event
+					  operator: http://www.w3.org/ns/odrl/2/isAllOf
+					  rightOperand: GGGG
+
+					- leftOperand: http://www.w3.org/ns/odrl/2/language
+					  operator: http://www.w3.org/ns/odrl/2/gteq
+					  rightOperand: GGGG
+
+
+				rule: http://www.w3.org/ns/odrl/2/Obligation
+				action:   https://w3id.org/dpv/owl#Analyse
+				actor:   https://www.cactusweb.gr/vocab/Cactus
+				target:   http://example.org/datasets/climateChangeData
+				purpose: 'https://w3id.org/dpv/owl#CounterMoneyLaundering'
+
+				rule: http://www.w3.org/ns/odrl/2/Obligation
+				action:   https://www.cactusweb.gr/vocab/Customer_Analysis
+				actor:   https://www.cactusweb.gr/vocab/Cactus
+				target:   http://example.org/datasets/climateChangeData
+				purpose: 'https://w3id.org/dpv/owl#AccountManagement'
+
+			4. Duty:
+				rule: http://www.w3.org/ns/odrl/2/Duty
+				action:
+					 source: 'https://www.cactusweb.gr/vocab/Customer_Analysis',
+					 refinement:
+					  - leftOperand: 'hasFinishTime',
+					    operator: 'http://www.w3.org/ns/odrl/2/gt',
+					    rightOperand: 'FFFF'
+				actor:
+					 @type: 'PartyCollection',
+					 source: 'https://w3id.org/dpv/owl#Consumer',
+					 refinement:
+					  - leftOperand: 'actorEnhancedProperty2',
+					    operator: 'http://www.w3.org/ns/odrl/2/gt',
+					    rightOperand: 'CCC'
+				target:   http://example.org/datasets/climateChangeData
+				purpose: 'https://www.cactusweb.gr/vocab/Benchmarking'
+				constraints:
+					- leftOperand: purposeEnhancedProperty
+					  operator: http://www.w3.org/ns/odrl/2/hasPart
+					  rightOperand: TTTT
+
+
+				rule: http://www.w3.org/ns/odrl/2/Duty
+				action:   http://creativecommons.org/ns#DerivativeWorks
+				actor:   http://www.w3.org/ns/odrl/2/Party
+				target:   http://example.org/datasets/climateChangeData
+				purpose: 'https://w3id.org/dpv/owl#CommunicationManagement'
+
+		2. Data Resource Description
+			• Title: dafa
+			• Price: 59.99
+			• Uri: Data
+			• Policy Url:
+			• Environmental Cost Of Generation: {'additionalProp1': '333', 'additionalProp2': '555'}
+			• Environmental Cost Of Serving: {'additionalProp1': '666', 'additionalProp2': '777'}
+			• Description: This is a description of Product ABC.
+			• Type Of Data:
+			• Data Format:
+			• Data Size:
+			• Tags: electronics, gadgets, technology
+
+		3. Data Processing Workflow (DPW)
+			3.1. @context:
+				upcast: https://www.upcast-project.eu/upcast-vocab/1.0/
+				idsa-core: https://w3id.org/idsa/core/
+				dct: http://purl.org/dc/terms/
+				wmo: http://www.ict-abovo.eu/ontologies/WorkflowModel#
+				odrl: http://www.w3.org/ns/odrl/
+				foaf: http://xmlns.com/foaf/0.1/
+				org: http://www.w3.org/ns/org#
+
+			3.2. @graph:
+				• @id: https://upcast-project.eu/consumer/example-data-consumer
+				   @type: foaf:Agent, foaf:Organization, org:Organization
+				   foaf:name: Data Consumer Organization
+
+				• @id: https://data-consumer.eu/agents/consumer-ai-agent
+				   @type: foaf:Agent, http://data-space-vocabulary/classes/AI-Agent
+				   foaf:name: Data Consumer AI Agent
+				   org:memberOf: https://upcast-project.eu/consumer/example-data-consumer
+
+				• @id: http://upcast-project.eu/dpws/example-dpw
+				   @type: upcast:DataProcessingWorkflow
+				   wmo:wfPurposes: Scientific Reseearch and Development
+				   wmo:Initiators: https://upcast-project.eu/consumer/example-data-consumer
+				   wmo:includesTask: http://upcast-project.eu/dpws/steps/step-1, http://upcast-project.eu/dpws/steps/step-2
+				   upcast:has_executable_representation: http://data-consumer.eu/my-nexflow-workflows/example-dpw-nexflow-script
+
+				• @id: http://upcast-project.eu/dpws/steps/step-1
+				   @type: wmo:TaskNode
+				   wmo:hasExecutionProfile: http://upcast-project.eu/dpws/steps/profiles/execution-profile-1
+
+				• @id: http://upcast-project.eu/dpws/steps/profiles/execution-profile-1
+				   @type: wmo:ExecutionProfile
+				   wmo:hasActor: https://upcast-project.eu/consumer/example-data-consumer
+				   wmo:hasOperation: http://upcast-project.eu/dpws/steps/operations/operation-1
+				   wmo:hasAsset: http://upcast-project.eu/dataset/example-dataset-agreed
+
+				• @id: http://upcast-project.eu/dpws/steps/operations/operation-1
+				   @type: wmo:Operation
+				   wmo:refersToConcept: odrl:aggregate
+				   upcast:implementedBy: http://upcast-project.eu/dpts/example-data-processing-task
+
+				• @id: http://upcast-project.eu/data-/example-data-processing-task
+				   @type: upcast:DataProcessingTask, idsa-core:DataApp
+				   upcast:applies: odrl:aggregate
+				   dct:title: Example Data Processing Task
+				   dct:description: Data Processing Task that implements an Abstract Operation of a DPW. In this case, odrl:aggregate
+
+				• @id: http://upcast-project.eu/dpws/steps/step-2
+				   @type: wmo:Operation
+				   wmo:hasExecutionProfile: http://upcast-project.eu/dpws/steps/profiles/execution-profile-2
+
+				• @id: http://upcast-project.eu/dpws/steps/profiles/execution-profile-2
+				   @type: wmo:ExecutionProfile
+				   wmo:hasActor: https://data-consumer.eu/agents/consumer-ai-agent
+				   wmo:hasOperation: http://upcast-project.eu/dpws/steps/operations/operation-2
+				   wmo:hasAsset: http://upcast-project.eu/dataset/example-dataset-agreed
+
+				• @id: http://upcast-project.eu/dpws/steps/operations/operation-2
+				   @type: wmo:Operation
+				   wmo:refersToConcept: odrl:translate
+				   upcast:implementedBy: http://upcast-project.eu/dpts/AI-Agent-processor
+
+				• @id: http://upcast-project.eu/dpts/AI-Agent-processor
+				   @type: upcast:DataProcessingTask, idsa-core:DataApp
+				   upcast:applies: odrl:translate
+				   dct:title: Example AI processor
+				   dct:description: Data Processing Task done by AI-Agent
+
+				• @id: http://upcast-project.eu/dpws/edges/edge-1
+				   @type: wmo:Edge
+				   wmo:hasSource: http://upcast-project.eu/dpws/steps/step-1
+				   wmo:hasDestination: http://upcast-project.eu/dpws/steps/step-2
+
+	A2. Communication and Persons in Charge
+
+		A2.1 Data Provider
+		• Organization: Provider Ltd
+		• Contact Person: upcast_miao
+		• Position Title: Data Protection Officer
+		• Email: miao@example.com
+		• Phone: +44 20 1234 5678
+		• Address: 1 Provider Way, London, UK
+
+		A2.2 Data Consumer
+		• Organization: Consumer GmbH
+		• Contact Person: upcast_david
+		• Position Title: Head of Data
+		• Email: david@example.com
+		• Phone: +49 30 9876 5432
+		• Address: 2 Verbraucherplatz, Berlin, DE
+
+
+""" ;
+    upcast:negotiationId "68878520a62982a292b58241" ;
+    upcast:notice_period 30 ;
+    upcast:refersTo <https://upcast-project.eu/dataset/dafa> ;
+    upcast:validity_period 12 .
+
+<http://upcast-project.eu/agreement/Negotiation-Agreement> odrl:hasPolicy <https://upcast-project.eu/policy/negoid-68878520a62982a292b58241-policyid-6895fc69c1a112e2ca522832> .
+
+<https://upcast-project.eu/consumer/consumer-gmbh> a foaf:Agent,
+        foaf:Organization ;
+    schema1:address "2 Verbraucherplatz, Berlin, DE" ;
+    schema1:jobTitle "Head of Data" ;
+    foaf:mbox <mailto:david@example.com> ;
+    foaf:name "Consumer GmbH" ;
+    foaf:phone <tel:+493098765432> .
+
+<https://upcast-project.eu/dataset/dafa> a dcat:Dataset ;
+    dct:description "This is a description of Product ABC." ;
+    dct:identifier "Data" ;
+    dct:title "dafa" ;
+    dcat:distribution <https://upcast-project.eu/dataset/dafa/distribution/main> ;
+    dcat:keyword "electronics",
+        "gadgets",
+        "technology" ;
+    odrl:hasPolicy <https://upcast-project.eu/policy/negoid-68878520a62982a292b58241-policyid-6895fc69c1a112e2ca522832> .
+
+<https://upcast-project.eu/dataset/dafa/distribution/main> a dcat:Distribution ;
+    schema1:price "59.99" .
+
+<https://upcast-project.eu/provider/provider-ltd> a foaf:Agent,
+        foaf:Organization ;
+    schema1:address "1 Provider Way, London, UK" ;
+    schema1:jobTitle "Data Protection Officer" ;
+    foaf:mbox <mailto:miao@example.com> ;
+    foaf:name "Provider Ltd" ;
+    foaf:phone <tel:+442012345678> .
+
+<https://upcast-project.eu/policy/negoid-68878520a62982a292b58241-policyid-6895fc69c1a112e2ca522832>
+a odrl:Policy ;
+    odrl:duty [ a odrl:Duty ;
+            odrl:action <http://creativecommons.org/ns#DerivativeWorks> ;
+            odrl:assignee odrl:Party ;
+            odrl:constraint [ odrl:leftOperand odrl:purpose ;
+                    odrl:operator odrl:eq ;
+                    odrl:rightOperand dpv:CommunicationManagement ] ;
+            odrl:target <http://example.org/datasets/climateChangeData> ],
+        [ a odrl:Duty ;
+            odrl:action [ odrl:refinement [ odrl:leftOperand odrl:hasFinishTime ;
+                            odrl:operator odrl:gt ;
+                            odrl:rightOperand "FFFF" ] ;
+                    odrl:source <https://www.cactusweb.gr/vocab/Customer_Analysis> ] ;
+            odrl:assignee [ a odrl:PartyCollection ;
+                    odrl:refinement [ odrl:leftOperand odrl:actorEnhancedProperty2 ;
+                            odrl:operator odrl:gt ;
+                            odrl:rightOperand "CCC" ] ;
+                    odrl:source dpv:Consumer ] ;
+            odrl:constraint [ odrl:leftOperand odrl:purposeEnhancedProperty ;
+                    odrl:operator odrl:hasPart ;
+                    odrl:rightOperand "TTTT" ],
+                [ odrl:leftOperand odrl:purpose ;
+                    odrl:operator odrl:eq ;
+                    odrl:rightOperand <https://www.cactusweb.gr/vocab/Benchmarking> ] ;
+            odrl:target <http://example.org/datasets/climateChangeData> ] ;
+    odrl:obligation [ a odrl:Obligation ;
+            odrl:action dpv:Analyse ;
+            odrl:assignee <https://www.cactusweb.gr/vocab/Cactus> ;
+            odrl:constraint [ odrl:leftOperand odrl:purpose ;
+                    odrl:operator odrl:eq ;
+                    odrl:rightOperand dpv:CounterMoneyLaundering ] ;
+            odrl:target <http://example.org/datasets/climateChangeData> ],
+        [ a odrl:Obligation ;
+            odrl:action <https://www.cactusweb.gr/vocab/Customer_Analysis> ;
+            odrl:assignee <https://www.cactusweb.gr/vocab/Cactus> ;
+            odrl:constraint [ odrl:leftOperand odrl:purpose ;
+                    odrl:operator odrl:eq ;
+                    odrl:rightOperand dpv:AccountManagement ] ;
+            odrl:target <http://example.org/datasets/climateChangeData> ],
+        [ a odrl:Obligation ;
+            odrl:action odrl:sell ;
+            odrl:assignee dpv:CharityOrganisation ;
+            odrl:constraint [ odrl:leftOperand odrl:event ;
+                    odrl:operator odrl:isAllOf ;
+                    odrl:rightOperand "GGGG" ],
+                [ odrl:leftOperand odrl:purpose ;
+                    odrl:operator odrl:eq ;
+                    odrl:rightOperand dpv:AgeVerification ],
+                [ odrl:leftOperand odrl:language ;
+                    odrl:operator odrl:gteq ;
+                    odrl:rightOperand "GGGG" ] ;
+            odrl:target <http://example.org/datasets/climateChangeData> ] ;
+    odrl:permission [ a odrl:Permission ;
+            odrl:action odrl:play ;
+            odrl:assignee dpv:CharityOrganisation ;
+            odrl:constraint [ odrl:leftOperand odrl:purpose ;
+                    odrl:operator odrl:eq ;
+                    odrl:rightOperand dpv:CommunicationForCustomerCare ] ;
+            odrl:target <http://example.org/datasets/climateChangeData> ],
+        [ a odrl:Permission ;
+            odrl:action <http://creativecommons.org/ns#DerivativeWorks> ;
+            odrl:assignee <https://www.cactusweb.gr/vocab/Cactus_Account_Manager> ;
+            odrl:constraint [ odrl:leftOperand odrl:purpose ;
+                    odrl:operator odrl:eq ;
+                    odrl:rightOperand dpv:TargetedAdvertising ] ;
+            odrl:target <http://example.org/datasets/climateChangeData> ] ;
+    odrl:prohibition [ a odrl:Prohibition ;
+            odrl:action odrl:aggregate ;
+            odrl:assignee dpv:CharityOrganisation ;
+            odrl:constraint [ odrl:leftOperand odrl:count ;
+                    odrl:operator odrl:isAllOf ;
+                    odrl:rightOperand "TTTT" ],
+                [ odrl:leftOperand odrl:purpose ;
+                    odrl:operator odrl:eq ;
+                    odrl:rightOperand dpv:CommunicationForCustomerCare ],
+                [ odrl:leftOperand odrl:percentage ;
+                    odrl:operator odrl:hasPart ;
+                    odrl:rightOperand "YYYY" ] ;
+            odrl:target <http://example.org/datasets/climateChangeData> ] ;
+    odrl:uid "https://upcast-project.eu/policy/negoid-68878520a62982a292b58241-policyid-6895fc69c1a112e2ca522832" .
